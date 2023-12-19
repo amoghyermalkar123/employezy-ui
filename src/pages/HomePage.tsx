@@ -1,6 +1,24 @@
 import { HiMenuAlt2 } from "react-icons/hi";
+import zustandStore from "../store/ZustandStore";
+import DiscoverPage from "../components/Discover";
+import SavedJobs from "../components/SavedJobs";
 
 function HomePage() {
+  const pageIndex = zustandStore(state => state.pageIndex);
+  const { setPageIndex } = zustandStore()
+
+  const renderPage = () => {
+    switch (pageIndex) {
+      case 0:
+        return (<DiscoverPage />)
+      case 1:
+        return (<SavedJobs />)
+      case 2:
+      default:
+        return (<div>Invalid Page Index!</div>)
+    }
+  }
+
   return (
     <div className="h-screen w-screen bg-base-200 overflow-y-auto">
       <div className="">
@@ -24,17 +42,17 @@ function HomePage() {
               <div className="flex-none hidden lg:block">
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
-                  <li>
-                    <a>Discover</a>
+                  <li onClick={() => setPageIndex(0)}>
+                    <a>Discover
+                    </a>
                   </li>
-                  <li>
+                  <li onClick={() => setPageIndex(1)}>
                     <a>Saved Jobs</a>
                   </li>
                 </ul>
               </div>
             </div>
-            {/* Page content here */}
-            <h1>HomePage</h1>
+            {renderPage()}
           </div>
           <div className="drawer-side">
             <label
