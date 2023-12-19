@@ -1,24 +1,52 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Editor } from "@monaco-editor/react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import zustandStore from "../store/ZustandStore";
+import jc from "../controllers/JobController";
+import CandidateSubmission from "../types/submission";
+import { useState } from "react";
 
 function CodeEditorPage() {
   const { state } = useLocation();
-  const data = JSON.parse(state);
+  const submission = JSON.parse(state);
+  const navigate = useNavigate();
+  const candidateId = zustandStore(state => state.userId);
+  const [code, setCode] = useState("");
 
-  console.log(data);
+  function handleCodechange(value: any, ev: any) {
+    setCode(value)
+    console.log("ev", ev)
+  }
+
+  async function submitAssignment() {
+    const finalSubmission: CandidateSubmission = {
+      ai_evaluation: "",
+      candidate_id: candidateId,
+      opening_id: submission.opening_id,
+      code: code,
+    }
+    submission.candidate_id = candidateId
+    const res = await jc.submitAssignment(finalSubmission);
+    console.log("submitted", res)
+    navigate("/home")
+  }
 
   return (
     <div className="h-screen w-screen">
       <div className="h-full flex flex-row">
-        <div className="w-96 bg-base-300 p-4">
+        <div className="flex flex-col w-96 bg-base-300 p-4">
           <h2 className="text-2xl">Question</h2>
           <p className="my-4">
-            {data.code_quest}
+            {submission.codeQuestion}
           </p>
+          <div className="flex-1"></div>
+          <button className="btn border-black border-1"
+            onClick={() => { submitAssignment() }}>
+            Next
+          </button>
         </div>
         <div className="w-full">
-          <Editor defaultLanguage="javascript" defaultValue="" />
+          <Editor defaultLanguage="javascript" defaultValue="" onChange={handleCodechange} />
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { CgBookmark } from "react-icons/cg";
 import { RiAmazonFill } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import getAllOpenings from "../controllers/JobController";
+import jc from "../controllers/JobController";
 import { useNavigate } from "react-router-dom";
 
 const pastelColors = [
@@ -27,7 +27,7 @@ function JobPostings() {
   const [jobs, setJobs] = useState<any[]>([]);
 
   const getJobs = async () => {
-    const res = await getAllOpenings();
+    const res = await jc.getAllOpenings();
     if (res != null) {
       setJobs(res);
     }
@@ -53,9 +53,9 @@ function JobPost({ item }: any) {
   const day = normalDate.getDate();
   const navigate = useNavigate();
 
-  const code = {
-    code_quest: item.assignment_problem_statement,
-    assesment_ques: item.technical_questions.qna
+  const submission = {
+    opening_id: item.opening_id,
+    code_question: item.assignment_problem_statement,
   };
 
   return (
@@ -110,7 +110,7 @@ function JobPost({ item }: any) {
         <button
           className="btn btn-neutral rounded-full"
           onClick={() =>
-            navigate("/home/code", { state: JSON.stringify(code) })}
+            navigate("/home/code", { state: JSON.stringify(submission) })}
         >
           Apply
         </button>

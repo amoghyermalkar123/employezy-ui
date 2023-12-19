@@ -10,6 +10,8 @@ interface StoreState {
   pageIndex: number;
   setPageIndex: (pageIndex: number) => void;
 
+  userId: string;
+  setUserId: (userId: string) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -27,6 +29,11 @@ const zustandStore = create<StoreState>(set => ({
   pageIndex:0,
   setPageIndex:(pageIndex: number) => {
     set({pageIndex: pageIndex})
+  },
+
+  userId: "",
+  setUserId:(userID: string) => {
+    set({userId: userID})
   }
 }));
 

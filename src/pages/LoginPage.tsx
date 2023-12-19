@@ -9,12 +9,14 @@ function LoginPage() {
   const { setIsLoading, setUserExpiryIn } = zustandStore();
   const isLoading = zustandStore(state => state.isLoading);
   const navigate = useNavigate();
-
+  const { setUserId } = zustandStore();
+ 
   const login = async () => {
     setIsLoading(true);
     const res = await authFunc.handleLogin(email, password.toString());
 
     if (res.status === "ok") {
+      setUserId(res.candidateID)
       setIsLoading(false);
       if (res.sessionExpiryIn) {
         setUserExpiryIn(res.sessionExpiryIn);
