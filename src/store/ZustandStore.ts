@@ -6,6 +6,10 @@ interface StoreState {
 
   userExpiryIn: number | null;
   setUserExpiryIn: (expiry: number) => void;
+
+  pageIndex: number;
+  setPageIndex: (pageIndex: number) => void;
+
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -18,6 +22,11 @@ const zustandStore = create<StoreState>(set => ({
   userExpiryIn: null,
   setUserExpiryIn: (expiry: number) => {
     set({ userExpiryIn: expiry })
+  },
+
+  pageIndex:0,
+  setPageIndex:(pageIndex: number) => {
+    set({pageIndex: pageIndex})
   }
 }));
 

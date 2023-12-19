@@ -6,7 +6,7 @@ interface PrivateRoutesProps {
 }
 
 const PrivateRoutes: FC<PrivateRoutesProps> = ({ isValid }) => {
-  return isValid ? <Outlet /> : <Navigate to="/login" />;
+  return isValid ? <Navigate to="/login" />: <Outlet /> ;
 };
 
 export default PrivateRoutes;

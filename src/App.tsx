@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import zustandStore from "./store/ZustandStore";
 import { useEffect, useState } from "react";
 import PrivateRoutes from "./utils/ProtectedRoutes";
+import DiscoverPage from "./components/Discover";
 
 function App() {
   const [shouldRender, setShouldRender] = useState(false);
@@ -28,6 +29,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<PrivateRoutes isValid={shouldRender} />}>
           <Route path="/home" element={<HomePage />} />
+          <Route path="/home/discover" element={<DiscoverPage/>} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
