@@ -17,9 +17,9 @@ function LoginPage() {
     if (res.status === "ok") {
       setIsLoading(false);
       if (res.sessionExpiryIn) {
-        setUserExpiryIn(res.sessionExpiryIn)
+        setUserExpiryIn(res.sessionExpiryIn);
       }
-      navigate("/");
+      navigate("/home");
     } else {
       alert("Error");
       setIsLoading(false);
