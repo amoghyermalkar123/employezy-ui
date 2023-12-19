@@ -6,24 +6,26 @@ import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { setIsLoading } = zustandStore();
+  const { setIsLoading, setUserExpiryIn } = zustandStore();
   const isLoading = zustandStore(state => state.isLoading);
-
   const navigate = useNavigate();
 
   const login = async () => {
     setIsLoading(true);
     const res = await authFunc.handleLogin(email, password.toString());
 
-    if (res === "ok") {
+    if (res.status === "ok") {
       setIsLoading(false);
+      if (res.sessionExpiryIn) {
+        setUserExpiryIn(res.sessionExpiryIn)
+      }
       navigate("/");
     } else {
       alert("Error");
       setIsLoading(false);
     }
   };
+
   return (
     <div className="h-screen w-screen bg-base-200">
       <div className="grid grid-cols-1 md:grid-cols-2 h-full w-full">

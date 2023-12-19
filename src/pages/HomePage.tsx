@@ -1,7 +1,8 @@
 import { HiMenuAlt2 } from "react-icons/hi";
 
-function HomePage() {
+function HomePage({shouldRender}) {
   return (
+    shouldRender?
     <div className="h-screen w-screen bg-base-200 overflow-y-auto">
       <div className="">
         <div className="drawer">
