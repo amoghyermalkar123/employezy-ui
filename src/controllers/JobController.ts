@@ -7,7 +7,7 @@ const getAllOpenings = async () => {
   //creating connection
   const supabase = createClient(PROJECT_URL, API_KEY);
 
-  const response = await supabase.from("JobOpenings").select();
+  const response = await supabase.from("JobOpenings").select("*, Orgs(*)");
   console.log(response.data);
 
   return response.data;
