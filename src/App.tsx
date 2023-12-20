@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import PrivateRoutes from "./utils/ProtectedRoutes";
 import DiscoverPage from "./components/Discover";
 import CodeEditorPage from "./pages/CodeEditorPage";
+import AdminDash from "./pages/admin/AdminDash";
 
 function App() {
   const [shouldRender, setShouldRender] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/admin" element={<AdminDash />} />
       </Routes>
     </Router>
   );
