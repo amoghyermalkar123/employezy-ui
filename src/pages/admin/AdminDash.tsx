@@ -7,9 +7,12 @@ import CardsComp from "../../components/adminComp/CardsComp";
 import TableComp from "../../components/adminComp/TableComp";
 import InfoComp from "../../components/adminComp/InfoComp";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AdminDash() {
   const [isVisible, setIsVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleVisibility = () => {
     setIsVisible(!isVisible);
@@ -59,7 +62,7 @@ function AdminDash() {
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <a onClick={() => navigate("/login")}>Logout</a>
                 </li>
               </ul>
             </div>

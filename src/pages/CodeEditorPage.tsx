@@ -14,8 +14,8 @@ function CodeEditorPage() {
   const [code, setCode] = useState("");
 
   function handleCodechange(value: any, ev: any) {
-    setCode(value)
-    console.log("ev", ev)
+    setCode(value);
+    console.log("ev", ev);
   }
 
   async function submitAssignment() {
@@ -23,30 +23,45 @@ function CodeEditorPage() {
       ai_evaluation: "",
       candidate_id: candidateId,
       opening_id: submission.opening_id,
-      code: code,
-    }
-    submission.candidate_id = candidateId
+      code: code
+    };
+    submission.candidate_id = candidateId;
     const res = await jc.submitAssignment(finalSubmission);
-    console.log("submitted", res)
-    navigate("/home")
+    console.log("submitted", res);
+    navigate("/home");
   }
 
   return (
     <div className="h-screen w-screen">
       <div className="h-full flex flex-row">
         <div className="flex flex-col w-96 bg-base-300 p-4">
-          <h2 className="text-2xl">Question</h2>
+          <div className="flex flex-row items-center justify-between">
+            <h2 className="text-2xl">Question</h2>
+            <span className="countdown font-mono text-2xl">
+              <span style={{ "--value": 10 }} />:
+              <span style={{ "--value": 24 }} />:
+              <span style={{ "--value": 29 }} />
+            </span>
+          </div>
           <p className="my-4">
             {submission.codeQuestion}
           </p>
-          <div className="flex-1"></div>
-          <button className="btn border-black border-1"
-            onClick={() => { submitAssignment() }}>
+          <div className="flex-1" />
+          <button
+            className="btn border-black border-1"
+            onClick={() => {
+              submitAssignment();
+            }}
+          >
             Next
           </button>
         </div>
         <div className="w-full">
-          <Editor defaultLanguage="javascript" defaultValue="" onChange={handleCodechange} />
+          <Editor
+            defaultLanguage="javascript"
+            defaultValue=""
+            onChange={handleCodechange}
+          />
         </div>
       </div>
     </div>
