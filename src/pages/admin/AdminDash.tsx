@@ -2,7 +2,7 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoAdd } from "react-icons/io5";
 import { MdManageAccounts } from "react-icons/md";
 import { motion } from "framer-motion";
-
+import CreateJobOpening from "../../controllers/AdminController.ts"
 import CardsComp from "../../components/adminComp/CardsComp";
 import TableComp from "../../components/adminComp/TableComp";
 import InfoComp from "../../components/adminComp/InfoComp";
@@ -18,6 +18,9 @@ function AdminDash() {
     setIsVisible(!isVisible);
   };
 
+  const handleSubmitOpening = async ()=>{
+   createJobOpening() 
+  }
   return (
     <div className="h-screen w-screen">
       <div className="drawer lg:drawer-open">
@@ -117,7 +120,7 @@ function AdminDash() {
       <div className="flex shadow-xl m-4">
         {isVisible &&
           <motion.div
-            className="fixed top-0 right-0 h-full w-1/3 bg-gray-800 text-white z-50 rounded-xl"
+            className="fixed top-0 right-0 h-full w-1/3 bg-base-200 text-black z-50 rounded-xl"
             transition={{ delay: 0.2 }}
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -130,12 +133,12 @@ function AdminDash() {
                 </button>
                 <h2 className="text-2xl font-bold">New Opening</h2>
               </div>
-              <div className="flex mt-10">
+              <div className="mt-10">
                 <div className="label"> Name</div>
                 <input
                   type="text"
                   placeholder="Title"
-                  className="input w-full"
+                  className="w-full input rounded-xl"
                 />
               </div>
             </div>
