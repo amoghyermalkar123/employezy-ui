@@ -6,7 +6,11 @@ import jc from "../controllers/JobController";
 import CandidateSubmission from "../types/submission";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
-import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from '@supabase/supabase-js'
+import {
+  FunctionsHttpError,
+  FunctionsRelayError,
+  FunctionsFetchError
+} from "@supabase/supabase-js";
 
 function CodeEditorPage() {
   const { state } = useLocation();
@@ -16,8 +20,8 @@ function CodeEditorPage() {
   const [code, setCode] = useState("");
 
   function handleCodechange(value: any, ev: any) {
-    setCode(value)
-    console.log("ev", ev)
+    setCode(value);
+    console.log("ev", ev);
   }
 
   async function submitAssignment() {
@@ -25,35 +29,39 @@ function CodeEditorPage() {
       ai_evaluation: "",
       candidate_id: candidateId,
       opening_id: submission.opening_id,
-      code: code,
-    }
-    submission.candidate_id = candidateId
+      code: code
+    };
+    submission.candidate_id = candidateId;
     const res = await jc.submitAssignment(finalSubmission);
-    console.log("submitted", res)
+    console.log("submitted", res);
     //loading the env variables
     const PROJECT_URL = import.meta.env.VITE_SUPABASE_URL;
     const API_KEY = import.meta.env.VITE_SUPABASE_API_KEY;
     //creating connection
     const supabase = createClient(PROJECT_URL, API_KEY);
-    const { data, error } = await supabase.functions.invoke('openai', {
+    const queryData = {
+      query: "What is supabase?"
+    };
+    const { data, error } = await supabase.functions.invoke("openai", {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpZmVuZ3JkYXBidmVnb2FhcWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MDMwNDAsImV4cCI6MjAxODQ3OTA0MH0.XnrjvUM64oUvwG9sCl4VNsZg6b_FDdu5l7-kbL-cW-Q}',
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpZmVuZ3JkYXBidmVnb2FhcWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MDMwNDAsImV4cCI6MjAxODQ3OTA0MH0.XnrjvUM64oUvwG9sCl4VNsZg6b_FDdu5l7-kbL-cW-Q"
       },
-      body: { query: 'What is supabase?' },
-      method: "POST",
-    })
+      body: JSON.stringify(queryData),
+      method: "POST"
+    });
 
     if (error instanceof FunctionsHttpError) {
-      const errorMessage = await error.context.json()
-      console.log('Function returned an error', errorMessage)
+      const errorMessage = await error.context.json();
+      console.log("Function returned an error", errorMessage);
     } else if (error instanceof FunctionsRelayError) {
-      console.log('Relay error:', error.message)
+      console.log("Relay error:", error.message);
     } else if (error instanceof FunctionsFetchError) {
-      console.log('Fetch error:', error.message, data)
+      console.log("Fetch error:", error.message, data);
     }
-    console.log("data from EF", data)
-    navigate("/home")
+    console.log("data from EF", data);
+    navigate("/home");
   }
 
   return (
@@ -64,14 +72,22 @@ function CodeEditorPage() {
           <p className="my-4">
             {submission.codeQuestion}
           </p>
-          <div className="flex-1"></div>
-          <button className="btn border-black border-1"
-            onClick={() => { submitAssignment() }}>
+          <div className="flex-1" />
+          <button
+            className="btn border-black border-1"
+            onClick={() => {
+              submitAssignment();
+            }}
+          >
             Next
           </button>
         </div>
         <div className="w-full">
-          <Editor defaultLanguage="javascript" defaultValue="" onChange={handleCodechange} />
+          <Editor
+            defaultLanguage="javascript"
+            defaultValue=""
+            onChange={handleCodechange}
+          />
         </div>
       </div>
     </div>
