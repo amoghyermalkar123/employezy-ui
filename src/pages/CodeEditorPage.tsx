@@ -37,14 +37,9 @@ function CodeEditorPage() {
         <div className="flex flex-col w-96 bg-base-300 p-4">
           <div className="flex flex-row items-center justify-between">
             <h2 className="text-2xl">Question</h2>
-            <span className="countdown font-mono text-2xl">
-              <span style={{ "--value": 10 }} />:
-              <span style={{ "--value": 24 }} />:
-              <span style={{ "--value": 29 }} />
-            </span>
           </div>
           <p className="my-4">
-            {submission.codeQuestion}
+            {submission.code_question}
           </p>
           <div className="flex-1" />
           <button
