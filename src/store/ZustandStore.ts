@@ -16,6 +16,8 @@ interface StoreState {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
 
+  NewJobSideBarState: boolean;
+  setNewJobSideBarState: (state: boolean) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -27,23 +29,27 @@ const zustandStore = create<StoreState>(set => ({
 
   userExpiryIn: null,
   setUserExpiryIn: (expiry: number) => {
-    set({ userExpiryIn: expiry })
+    set({ userExpiryIn: expiry });
   },
 
   pageIndex: 0,
   setPageIndex: (pageIndex: number) => {
-    set({ pageIndex: pageIndex })
+    set({ pageIndex: pageIndex });
   },
 
   userId: "",
   setUserId: (userID: string) => {
-    set({ userId: userID })
+    set({ userId: userID });
   },
 
   searchTerm: "",
   setSearchTerm: (searchTerm: string) => {
-    set({ searchTerm: searchTerm })
+    set({ searchTerm: searchTerm });
   },
+  NewJobSideBarState: false,
+  setNewJobSideBarState: (state: boolean) => {
+    set({ NewJobSideBarState: state });
+  }
 }));
 
 export default zustandStore;
