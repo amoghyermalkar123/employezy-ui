@@ -31,7 +31,7 @@ function App() {
         {/* Protected Routes */}
         <Route element={<PrivateRoutes isValid={shouldRender} />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/home/discover" element={<DiscoverPage />} />
+          <Route path="/home/discover" element={<DiscoverPage searchTerm=""/>} />
           <Route path="/home/code" element={<CodeEditorPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />

@@ -6,11 +6,17 @@ import SavedJobs from "../components/SavedJobs";
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
   const { setPageIndex } = zustandStore();
+  const { setSearchTerm } = zustandStore();
+  const searchTerm = zustandStore(state => state.searchTerm);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
 
   const renderPage = () => {
     switch (pageIndex) {
       case 0:
-        return <DiscoverPage />;
+        return <DiscoverPage searchTerm={searchTerm} />;
       case 1:
         return <SavedJobs />;
       case 2:
@@ -36,12 +42,14 @@ function HomePage() {
                   <HiMenuAlt2 className="text-2xl" />
                 </label>
               </div>
-              <div className="w-40 px-2 mx-2 font-bold text-xl border-2 border-red-400">
+              <div className="w-40 px-2 mx-2 font-bold text-xl">
                 EmployEzy
               </div>
               {/*  navbar center */}
-              <div className="flex-1 navbar-center hidden md:block lg:flex border-2 border-black">
-                asdl
+              <div className="flex-1 navbar-center hidden md:block lg:flex">
+                <div className="form-control w-full">
+                  <input type="text" placeholder="Search" onChange={onChange} className="bg-inherit input input-bordered md:w-auto" />
+                </div>
               </div>
               {/* navbar center end */}
               <div className="flex-none hidden lg:block">
