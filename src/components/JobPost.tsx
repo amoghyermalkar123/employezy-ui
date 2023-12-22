@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import jc from "../controllers/JobController";
 import { useNavigate } from "react-router-dom";
+import Fuse from "fuse.js";
+
 
 const pastelColors = [
   "bg-pink-200",
@@ -23,8 +25,9 @@ const getRandomPastelColor = () => {
   return pastelColors[randomIndex];
 };
 
-function JobPostings() {
+function JobPostings(props: { searchTerm:string }) {
   const [jobs, setJobs] = useState<any[]>([]);
+  const [searchJob, setSearchJobs] = useState<any[]>([]);
 
   const getJobs = async () => {
     const res = await jc.getAllOpenings();
@@ -34,12 +37,34 @@ function JobPostings() {
   };
 
   useEffect(() => {
+    if (!props.searchTerm) {
+      setSearchJobs(jobs)
+      return
+    }
+    const fuse = new Fuse(jobs, {
+      keys: ["opening_name", "job_tags", "name"]
+    });
+    const result = fuse.search(props.searchTerm);
+    const finalResult: any[] = [];
+    if (result.length) {
+      result.forEach((item) => {
+        finalResult.push(item.item);
+      });
+      setSearchJobs(finalResult);
+    } else {
+      setSearchJobs(jobs);
+    }
+  }, [props.searchTerm, jobs])
+
+  useEffect(() => {
     getJobs();
   }, []);
 
   return (
     <div className="bg-base-200 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
-      {jobs.map((item: any, index: number) =>
+      {searchJob ? searchJob.map((item: any, index: number) =>
+        <JobPost key={index} item={item} />
+      ) : jobs.map((item: any, index: number) =>
         <JobPost key={index} item={item} />
       )}
     </div>
@@ -92,7 +117,7 @@ function JobPost({ item }: any) {
           </span>
         </div>
         <div className="flex flex-row flex-wrap justify-start">
-          {}
+          { }
           <div className="p-2 border-2 border-gray-400 rounded-full m-1">
             Full-Time
           </div>

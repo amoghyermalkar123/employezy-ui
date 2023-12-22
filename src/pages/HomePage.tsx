@@ -8,13 +8,19 @@ import { useNavigate } from "react-router-dom";
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
   const { setPageIndex } = zustandStore();
+  const { setSearchTerm } = zustandStore();
+  const searchTerm = zustandStore(state => state.searchTerm);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   const navigate = useNavigate();
 
   const renderPage = () => {
     switch (pageIndex) {
       case 0:
-        return <DiscoverPage />;
+        return <DiscoverPage searchTerm={searchTerm} />;
       case 1:
         return <SavedJobs />;
       case 2:
@@ -30,7 +36,7 @@ function HomePage() {
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col">
             {/* Navbar */}
-            <div className="w-full navbar bg-base-300">
+            <div className="w-full navbar bg-base-300 flex justify-between">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="my-drawer-3"
@@ -40,9 +46,19 @@ function HomePage() {
                   <HiMenuAlt2 className="text-2xl" />
                 </label>
               </div>
-              <div className="flex-1 px-2 mx-2 font-bold text-xl">
-                EmployEzy
+              <div className="w-40 px-2 mx-2 font-bold text-xl">EmployEzy</div>
+              {/*  navbar center */}
+              <div className="flex-1 navbar-center hidden md:block lg:flex">
+                <div className="form-control w-full">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    onChange={onChange}
+                    className="bg-inherit input input-bordered md:w-auto"
+                  />
+                </div>
               </div>
+              {/* navbar center end */}
               <div className="flex-none hidden lg:block">
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
@@ -90,7 +106,7 @@ function HomePage() {
                 </ul>
               </div>
             </div>
-
+            {/*Navbar end  */}
             {renderPage()}
           </div>
           <div className="drawer-side">
