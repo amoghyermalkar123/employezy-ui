@@ -1,8 +1,8 @@
 import JobPostings from "./JobPost";
 
-function DiscoverPage() {
+function DiscoverPage(props: {searchTerm: string}) {
     return (  
-        <JobPostings/>
+        <JobPostings searchTerm={props.searchTerm}/>
     );
 }
 
