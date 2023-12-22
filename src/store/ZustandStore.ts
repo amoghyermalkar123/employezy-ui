@@ -12,6 +12,9 @@ interface StoreState {
 
   userId: string;
   setUserId: (userId: string) => void;
+
+  NewJobSideBarState: boolean;
+  setNewJobSideBarState: (state: boolean)=> void
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -34,6 +37,11 @@ const zustandStore = create<StoreState>(set => ({
   userId: "",
   setUserId:(userID: string) => {
     set({userId: userID})
+  },
+
+  NewJobSideBarState: false,
+  setNewJobSideBarState: (state: boolean) => {
+    set({NewJobSideBarState: state})
   }
 }));
 

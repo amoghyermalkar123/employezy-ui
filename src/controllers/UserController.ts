@@ -20,6 +20,7 @@ const handleLogin = async (email: string, password: string, isOrg:boolean): Prom
       console.log(response.data);
       
       if (response.data) {
+        localStorage.setItem('org_details', JSON.stringify(response.data))
         return {
           status: "isOrg",
           orgID: response.data["org_id"] as string
