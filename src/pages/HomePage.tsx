@@ -26,7 +26,7 @@ function HomePage() {
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col">
             {/* Navbar */}
-            <div className="w-full navbar bg-base-300">
+            <div className="w-full navbar bg-base-300 flex justify-between">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="my-drawer-3"
@@ -36,9 +36,14 @@ function HomePage() {
                   <HiMenuAlt2 className="text-2xl" />
                 </label>
               </div>
-              <div className="flex-1 px-2 mx-2 font-bold text-xl">
+              <div className="w-40 px-2 mx-2 font-bold text-xl border-2 border-red-400">
                 EmployEzy
               </div>
+              {/*  navbar center */}
+              <div className="flex-1 navbar-center hidden md:block lg:flex border-2 border-black">
+                asdl
+              </div>
+              {/* navbar center end */}
               <div className="flex-none hidden lg:block">
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
@@ -79,7 +84,7 @@ function HomePage() {
                 </ul>
               </div>
             </div>
-            
+            {/*Navbar end  */}
             {renderPage()}
           </div>
           <div className="drawer-side">
