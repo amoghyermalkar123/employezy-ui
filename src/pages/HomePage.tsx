@@ -79,6 +79,7 @@ function HomePage() {
                 </ul>
               </div>
             </div>
+            
             {renderPage()}
           </div>
           <div className="drawer-side">
