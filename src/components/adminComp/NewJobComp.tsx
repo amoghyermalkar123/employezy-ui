@@ -11,12 +11,12 @@ export default function NewJobComp() {
   const [jobName, setJobName] = useState("");
   const [assignment, setAssignment] = useState("");
   const [salary, setSalary] = useState("");
-
   const [location, setLocation] = useState("");
 
   const Job_tags = ["Full Time", "Hybrid"];
 
   const handleNewJobopening = async () => {
+    setNewJobSideBarState(false);
     createJobOpening(
       data.org_id,
       jobName,

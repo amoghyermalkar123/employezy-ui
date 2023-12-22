@@ -2,10 +2,14 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import zustandStore from "../store/ZustandStore";
 import DiscoverPage from "../components/Discover";
 import SavedJobs from "../components/SavedJobs";
+import userAuth from "../controllers/UserController.ts";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
   const { setPageIndex } = zustandStore();
+
+  const navigate = useNavigate();
 
   const renderPage = () => {
     switch (pageIndex) {
@@ -73,13 +77,20 @@ function HomePage() {
                   <li>
                     <a>Settings</a>
                   </li>
-                  <li>
+                  <li
+                    onClick={async () => {
+                      const res = await userAuth.handleLogout();
+                      if (res === "ok") {
+                        navigate("/login");
+                      }
+                    }}
+                  >
                     <a>Logout</a>
                   </li>
                 </ul>
               </div>
             </div>
-            
+
             {renderPage()}
           </div>
           <div className="drawer-side">
