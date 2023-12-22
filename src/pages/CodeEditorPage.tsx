@@ -5,12 +5,6 @@ import zustandStore from "../store/ZustandStore";
 import jc from "../controllers/JobController";
 import CandidateSubmission from "../types/submission";
 import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import {
-  FunctionsHttpError,
-  FunctionsRelayError,
-  FunctionsFetchError
-} from "@supabase/supabase-js";
 
 function CodeEditorPage() {
   const { state } = useLocation();
