@@ -5,19 +5,19 @@ import SavedJobs from "../components/SavedJobs";
 
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
-  const { setPageIndex } = zustandStore()
+  const { setPageIndex } = zustandStore();
 
   const renderPage = () => {
     switch (pageIndex) {
       case 0:
-        return (<DiscoverPage />)
+        return <DiscoverPage />;
       case 1:
-        return (<SavedJobs />)
+        return <SavedJobs />;
       case 2:
       default:
-        return (<div>Invalid Page Index!</div>)
+        return <div>Invalid Page Index!</div>;
     }
-  }
+  };
 
   return (
     <div className="h-screen w-screen bg-base-200 overflow-y-auto">
@@ -43,11 +43,38 @@ function HomePage() {
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
                   <li onClick={() => setPageIndex(0)}>
-                    <a>Discover
-                    </a>
+                    <a>Discover</a>
                   </li>
                   <li onClick={() => setPageIndex(1)}>
                     <a>Saved Jobs</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <a className="justify-between">Profile</a>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <a>Logout</a>
                   </li>
                 </ul>
               </div>
