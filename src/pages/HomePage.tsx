@@ -2,12 +2,9 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import zustandStore from "../store/ZustandStore";
 import DiscoverPage from "../components/Discover";
 import SavedJobs from "../components/SavedJobs";
-<<<<<<< HEAD
 import userAuth from "../controllers/UserController.ts";
 import { useNavigate } from "react-router-dom";
-=======
 import AppliedJobs from "../components/Applied";
->>>>>>> origin/master
 
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
@@ -28,7 +25,7 @@ function HomePage() {
       case 1:
         return <SavedJobs />;
       case 2:
-        return <AppliedJobs/>;
+        return <AppliedJobs />;
       default:
         return <div>Invalid Page Index!</div>;
     }
