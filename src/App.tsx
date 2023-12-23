@@ -9,6 +9,7 @@ import DiscoverPage from "./components/Discover";
 import CodeEditorPage from "./pages/CodeEditorPage";
 import AdminDash from "./pages/admin/AdminDash";
 import ManageJobsPage from "./pages/admin/ManageJobsPage";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   const [shouldRender, setShouldRender] = useState(false);
@@ -38,10 +39,11 @@ function App() {
           />
           <Route path="/home/code" element={<CodeEditorPage />} />
           <Route path="/admin/manage" element={<ManageJobsPage />} />
+          <Route path="/admin" element={<AdminDash />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/admin" element={<AdminDash />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </Router>
   );

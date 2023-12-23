@@ -7,8 +7,8 @@ import InfoComp from "../../components/adminComp/InfoComp";
 import zustandStore from "../../store/ZustandStore";
 import { useNavigate } from "react-router-dom";
 import NewJobComp from "../../components/adminComp/NewJobComp";
-import { useEffect, useState } from "react";
-import AdminController from "../../controllers/AdminController";
+import { useEffect } from "react";
+// import AdminController from "../../controllers/AdminController";
 
 function AdminDash() {
   const NewJobSideBarState = zustandStore(state => state.NewJobSideBarState);
@@ -18,7 +18,7 @@ function AdminDash() {
   // const [jobs, setJobs] = useState();
 
   const handleJobs = async () => {
-    const res = await AdminController.JobsPerCompany(1);
+    // const res = await AdminController.JobsPerCompany(1);
     // setJobs(res);
   };
 
