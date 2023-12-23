@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoAdd } from "react-icons/io5";
 import { MdManageAccounts } from "react-icons/md";
@@ -7,24 +8,11 @@ import InfoComp from "../../components/adminComp/InfoComp";
 import zustandStore from "../../store/ZustandStore";
 import { useNavigate } from "react-router-dom";
 import NewJobComp from "../../components/adminComp/NewJobComp";
-import { useEffect } from "react";
-// import AdminController from "../../controllers/AdminController";
 
 function AdminDash() {
   const NewJobSideBarState = zustandStore(state => state.NewJobSideBarState);
   const { setNewJobSideBarState } = zustandStore();
   const navigate = useNavigate();
-
-  // const [jobs, setJobs] = useState();
-
-  const handleJobs = async () => {
-    // const res = await AdminController.JobsPerCompany(1);
-    // setJobs(res);
-  };
-
-  useEffect(() => {
-    handleJobs();
-  }, []);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden">
@@ -113,7 +101,7 @@ function AdminDash() {
               onClick={() => navigate("/admin/manage")}
             >
               <MdManageAccounts className="text-2xl" />
-              Manage Openings
+              Manage Applications
             </button>
             <li className="mt-5">
               <a>Sidebar Item 1</a>

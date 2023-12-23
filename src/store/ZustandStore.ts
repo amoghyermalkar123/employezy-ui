@@ -18,6 +18,12 @@ interface StoreState {
 
   NewJobSideBarState: boolean;
   setNewJobSideBarState: (state: boolean) => void;
+
+  jobViewState: boolean;
+  setJobViewState: (state: boolean) => void;
+
+  jobUserId: string;
+  setJonUserId: (id: string) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -49,6 +55,16 @@ const zustandStore = create<StoreState>(set => ({
   NewJobSideBarState: false,
   setNewJobSideBarState: (state: boolean) => {
     set({ NewJobSideBarState: state });
+  },
+
+  jobViewState: false,
+  setJobViewState: (state: boolean) => {
+    set({ jobViewState: state });
+  },
+
+  jobUserId: "",
+  setJonUserId: (id: string) => {
+    set({ jobUserId: id });
   }
 }));
 

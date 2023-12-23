@@ -41,12 +41,9 @@ const JobsPerCompany = async (org_id: number) => {
 };
 
 //* Get all Applications
-const AllApplications = async (opening_id: number) => {
-  const response = await supabase
-    .from("CandidateSubmissions")
-    .select("*")
-    .eq("opening_id", opening_id);
-  console.log(response.data);
+const AllApplications = async () => {
+  const response = await supabase.from("CandidateSubmissions").select("*");
+  return response.data;
 };
 
 export default { createJobOpening, JobsPerCompany, AllApplications };
