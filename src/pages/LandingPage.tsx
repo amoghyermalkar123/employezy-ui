@@ -65,7 +65,7 @@ export default function LandingPage() {
             </ul>
           </div>
           <a className="btn btn-ghost normal-case text-2xl font-my-font-bold">
-            Talent Protocol
+            EmployEzy
           </a>
         </div>
         <div className="navbar-end hidden lg:flex">
