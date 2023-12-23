@@ -2,7 +2,12 @@ import { HiMenuAlt2 } from "react-icons/hi";
 import zustandStore from "../store/ZustandStore";
 import DiscoverPage from "../components/Discover";
 import SavedJobs from "../components/SavedJobs";
+<<<<<<< HEAD
+import userAuth from "../controllers/UserController.ts";
+import { useNavigate } from "react-router-dom";
+=======
 import AppliedJobs from "../components/Applied";
+>>>>>>> origin/master
 
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
@@ -11,8 +16,10 @@ function HomePage() {
   const searchTerm = zustandStore(state => state.searchTerm);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-  }
+    setSearchTerm(event.target.value);
+  };
+
+  const navigate = useNavigate();
 
   const renderPage = () => {
     switch (pageIndex) {
@@ -44,13 +51,16 @@ function HomePage() {
                   <HiMenuAlt2 className="text-2xl" />
                 </label>
               </div>
-              <div className="w-40 px-2 mx-2 font-bold text-xl">
-                EmployEzy
-              </div>
+              <div className="w-40 px-2 mx-2 font-bold text-xl">EmployEzy</div>
               {/*  navbar center */}
               <div className="flex-1 navbar-center hidden md:block lg:flex">
                 <div className="form-control w-full">
-                  <input type="text" placeholder="Search" onChange={onChange} className="bg-inherit input input-bordered md:w-auto" />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    onChange={onChange}
+                    className="bg-inherit input input-bordered md:w-auto"
+                  />
                 </div>
               </div>
               {/* navbar center end */}
@@ -91,7 +101,14 @@ function HomePage() {
                   <li>
                     <a>Settings</a>
                   </li>
-                  <li>
+                  <li
+                    onClick={async () => {
+                      const res = await userAuth.handleLogout();
+                      if (res === "ok") {
+                        navigate("/login");
+                      }
+                    }}
+                  >
                     <a>Logout</a>
                   </li>
                 </ul>

@@ -73,4 +73,14 @@ const registerUser = async (email: string, password: string): Promise<UserSessio
   };
 };
 
-export default { handleLogin, registerUser };
+
+const handleLogout = async ()=>{
+  const response = await supabase.auth.signOut();
+  console.log(response);
+  if (response.error === null) {
+    return "ok"
+  } 
+  return "error"
+}
+
+export default { handleLogin, registerUser, handleLogout };

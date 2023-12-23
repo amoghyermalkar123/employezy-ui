@@ -14,7 +14,7 @@ function AdminDash() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-screen w-screen overflow-x-hidden">
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
