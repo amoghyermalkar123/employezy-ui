@@ -1,13 +1,30 @@
 import { useState } from "react";
 import authFunc from "../controllers/UserController";
+import zustandStore from "../store/ZustandStore";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   //   const url = import.meta.env.VITE_SUPABASE_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = () => {
-    authFunc.registerUser(email, password.toString());
+  const { setUserId } = zustandStore();
+  const { setIsLoading, setUserExpiryIn } = zustandStore();
+
+  const register = async () => {
+    const res = await authFunc.registerUser(email, password.toString());
+    if (res.status === "ok") {
+      setUserId(res.candidateID!);
+      setIsLoading(false);
+      if (res.sessionExpiryIn) {
+        setUserExpiryIn(res.sessionExpiryIn);
+      }
+      navigate("/login");
+    } else {
+      alert("Error");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -44,8 +61,8 @@ function RegisterPage() {
               className="input input-bordered w-full"
               onChange={e => setPassword(e.target.value)}
             />
-            <button className="btn btn-primary w-full mt-5" onClick={login}>
-              Login
+            <button className="btn btn-primary w-full mt-5" onClick={register}>
+              Register
             </button>
           </div>
         </div>

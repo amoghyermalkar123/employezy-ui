@@ -8,6 +8,7 @@ import PrivateRoutes from "./utils/ProtectedRoutes";
 import DiscoverPage from "./components/Discover";
 import CodeEditorPage from "./pages/CodeEditorPage";
 import AdminDash from "./pages/admin/AdminDash";
+import ManageJobsPage from "./pages/admin/ManageJobsPage";
 
 function App() {
   const [shouldRender, setShouldRender] = useState(false);
@@ -31,8 +32,12 @@ function App() {
         {/* Protected Routes */}
         <Route element={<PrivateRoutes isValid={shouldRender} />}>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/home/discover" element={<DiscoverPage searchTerm=""/>} />
+          <Route
+            path="/home/discover"
+            element={<DiscoverPage searchTerm="" />}
+          />
           <Route path="/home/code" element={<CodeEditorPage />} />
+          <Route path="/admin/manage" element={<ManageJobsPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

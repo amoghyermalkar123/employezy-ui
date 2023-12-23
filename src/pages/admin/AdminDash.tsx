@@ -7,11 +7,24 @@ import InfoComp from "../../components/adminComp/InfoComp";
 import zustandStore from "../../store/ZustandStore";
 import { useNavigate } from "react-router-dom";
 import NewJobComp from "../../components/adminComp/NewJobComp";
+import { useEffect, useState } from "react";
+import AdminController from "../../controllers/AdminController";
 
 function AdminDash() {
-  const NewJobSideBarState = zustandStore((state) => state.NewJobSideBarState);
+  const NewJobSideBarState = zustandStore(state => state.NewJobSideBarState);
   const { setNewJobSideBarState } = zustandStore();
   const navigate = useNavigate();
+
+  // const [jobs, setJobs] = useState();
+
+  const handleJobs = async () => {
+    const res = await AdminController.JobsPerCompany(1);
+    // setJobs(res);
+  };
+
+  useEffect(() => {
+    handleJobs();
+  }, []);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden">
@@ -95,7 +108,10 @@ function AdminDash() {
               <IoAdd className="text-2xl" />
               Create Opening
             </button>
-            <button className="btn btn-primary btn-outline w-full mt-5">
+            <button
+              className="btn btn-primary btn-outline w-full mt-5"
+              onClick={() => navigate("/admin/manage")}
+            >
               <MdManageAccounts className="text-2xl" />
               Manage Openings
             </button>

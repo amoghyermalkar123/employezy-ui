@@ -16,7 +16,6 @@ export default function NewJobComp() {
   const Job_tags = ["Full Time", "Hybrid"];
 
   const handleNewJobopening = async () => {
-    setNewJobSideBarState(false);
     createJobOpening(
       data.org_id,
       jobName,
@@ -25,6 +24,7 @@ export default function NewJobComp() {
       location,
       salary
     );
+    setNewJobSideBarState(false);
   };
 
   return (
