@@ -1,53 +1,49 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
 import supabase from "../utils/supabaseClient.ts";
-// const pastelColors = [
-//   "bg-pink-200",
-//   "bg-blue-200",
-//   "bg-purple-200",
-//   "bg-green-200",
-//   "bg-teal-200",
-//   "bg-orange-200",
-//   "bg-indigo-200",
-//   "bg-red-200"
-// ];
-
-// Function to get a random pastel color from the array
-// const getRandomPastelColor = () => {
-//   const randomIndex = Math.floor(Math.random() * pastelColors.length);
-//   return pastelColors[randomIndex];
-// };
+import jc from "../controllers/JobController";
+import zustandStore from "../store/ZustandStore.ts";
 
 function AppliedJobs() {
-  const [evaluation, setEvaluation] = useState("");
-  supabase
-    .channel("sub_res_insert_events")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "SubmissionResults" },
-      payload => {
-        console.log("Change received!", payload);
-        setEvaluation(payload.new.evaluation);
-      }
-    )
-    .subscribe();
+    const { loadAppliedJobs } = zustandStore();
+    const appliedJobs = zustandStore(state => state.appliedJobs);
 
-  return (
-    <div className={`collapse border-2 m-3 p-2 w-3/4 shadow-md  bg-blue-300`}>
-      <input type="radio" name="my-accordion-1" />
-      <div className="collapse-title text-xl font-medium">
-        <span className="font-mono">company: </span>{" "}
-        <span className="font-mono font-semibold">position</span>
-      </div>
-      <div className="collapse-content bg-teal-200 rounded-md">
-        <p className="flex flex-row">
-          <span className="font font-mono">Evaluation:</span>
-          <p>
-            {evaluation}
-          </p>
-        </p>
-      </div>
-    </div>
-  );
+    const getEvals = async () => {
+        const res: any = await jc.fetchAppliedJobs();
+        if (res != null) {
+            // loadAppliedJobs(res.data)
+        }
+        console.log(appliedJobs)
+    };
+
+    useEffect(() => {
+        supabase
+            .channel("sub_res_insert_events")
+            .on(
+                "postgres_changes",
+                { event: "INSERT", schema: "public", table: "CandidateSubmissions" },
+                payload => {
+                    console.log("Change received!", payload);
+                }
+            )
+            .subscribe();
+        getEvals();
+    })
+
+    return (
+        <div className="w-screen h-screen">
+            <div className=" h-full mx-4 md:mx-12 lg:mx-24 xl:mx-48">
+                <div className="w-full flex flex-col p-8 border-2 shadow-md my-2 rounded-lg">
+                    <div className="w-full flex flex-row justify-between items-center">
+                        <h2>company</h2>
+                        <h2>rating</h2>
+                    </div>
+                    <div className="divider divide-x-0"></div>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur laborum eligendi alias distinctio eos ipsam ipsum nulla! Iste dolore, cupiditate sunt aliquam a hic eius iusto maiores alias, inventore error pariatur! Cum pariatur debitis fugiat maiores expedita, est ullam ad nesciunt voluptatibus, voluptate nisi velit beatae odit! Maxime error mollitia cupiditate quo nisi illo quia similique quod, aut nemo impedit, tenetur tempore quidem natus, aspernatur repellat non est! Quo nam soluta, dolore dolorem temporibus maxime quis delectus modi doloremque quidem eligendi repudiandae dolor quisquam, ab quibusdam nesciunt accusantium debitis odio libero dolores cum. Excepturi, necessitatibus nisi aut commodi aliquid reprehenderit!</p>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default AppliedJobs;

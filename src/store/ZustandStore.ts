@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 
 interface StoreState {
@@ -18,6 +19,9 @@ interface StoreState {
 
   NewJobSideBarState: boolean;
   setNewJobSideBarState: (state: boolean) => void;
+
+  appliedJobs: any[];
+  loadAppliedJobs: (appliedJobs: any[]) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -32,7 +36,7 @@ const zustandStore = create<StoreState>(set => ({
     set({ userExpiryIn: expiry });
   },
 
-  pageIndex: 0,
+  pageIndex: 2,
   setPageIndex: (pageIndex: number) => {
     set({ pageIndex: pageIndex });
   },
@@ -46,10 +50,16 @@ const zustandStore = create<StoreState>(set => ({
   setSearchTerm: (searchTerm: string) => {
     set({ searchTerm: searchTerm });
   },
+
   NewJobSideBarState: false,
   setNewJobSideBarState: (state: boolean) => {
     set({ NewJobSideBarState: state });
-  }
+  },
+
+  appliedJobs: [],
+  loadAppliedJobs: (appliedJobs: any[]) => {
+    set({ appliedJobs: appliedJobs });
+  },
 }));
 
 export default zustandStore;

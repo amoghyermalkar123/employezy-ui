@@ -15,4 +15,13 @@ const getAllOpenings = async () => {
   return response.data;
 };
 
-export default { getAllOpenings, submitAssignment };
+const fetchAppliedJobs = async () => {
+  const data = supabase
+    .from('JobOpenings')
+    .select(`*,
+            subs:CandidateSubmissions(*),
+            orgs:Orgs(*)
+        `)
+  return data
+}
+export default { getAllOpenings, submitAssignment, fetchAppliedJobs };
