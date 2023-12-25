@@ -74,7 +74,7 @@ function AdminDash() {
           </section>
           {/* table section starts here */}
           <section className="flex flex-col p-4">
-            <h2 className="font-medium text-xl mb-5">Applications</h2>
+            <h2 className="font-medium text-xl mb-5">Openings</h2>
             <div className="w-full h-80 overflow-auto border-2 rounded-xl">
               <TableComp />
             </div>

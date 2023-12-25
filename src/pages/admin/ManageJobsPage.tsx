@@ -7,6 +7,7 @@ import { CgClose } from "react-icons/cg";
 function ManageJobsPage() {
   const { setJobViewState } = zustandStore();
   const JobViewState = zustandStore(state => state.jobViewState);
+  
 
   return (
     <div className="h-screen w-screen">
@@ -23,7 +24,10 @@ function ManageJobsPage() {
             >
               <CgClose classname="text-2xl" />
             </button>
-            <h2 className="text-2xl font-bold">New Opening</h2>
+            <h2 className="text-2xl font-bold">Evaluation</h2>
+          </div>
+          <div className="">
+            
           </div>
         </div>}
     </div>

@@ -30,20 +30,27 @@ const createJobOpening = async (
   }
 };
 
-//* get job openings per organisation
-const JobsPerCompany = async (org_id: number) => {
-  const response = await supabase
-    .from("JobOpenings")
-    .select("*")
-    .eq("org_id", org_id);
+// //* get job openings per organisation
+// const JobsPerCompany = async (org_id: number) => {
+//   const response = await supabase
+//     .from("JobOpenings")
+//     .select("*")
+//     .eq("org_id", org_id);
 
-  return response.data;
-};
+//   return response.data;
+// };
 
 //* Get all Applications
-const AllApplications = async () => {
-  const response = await supabase.from("CandidateSubmissions").select("*");
-  return response.data;
+const AllApplications = async (org_id:number) => {
+  const { data, error } = await supabase
+        .from('JobOpenings')
+        .select(`*,
+            subs:CandidateSubmissions(*),
+            orgs:Orgs(*)
+        `).eq("org_id", org_id)
+  console.log(data,error);
+  
+  return data
 };
 
-export default { createJobOpening, JobsPerCompany, AllApplications };
+export default { createJobOpening, AllApplications };

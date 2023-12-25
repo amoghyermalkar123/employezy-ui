@@ -39,8 +39,9 @@ function ApplicationTableComp() {
         <tbody>
           {jobs.map((item: any, index: number) =>
             <tr key={index}>
+             
               <td>
-                {item.submission_id}
+                {item.opening_name}
               </td>
               <td>
                 {item.location}
