@@ -2,18 +2,20 @@
 import { useEffect, useState } from "react";
 import supabase from "../utils/supabaseClient.ts";
 import jc from "../controllers/JobController";
-import zustandStore from "../store/ZustandStore.ts";
+//import zustandStore from "../store/ZustandStore.ts";
 
 function AppliedJobs() {
-    const { loadAppliedJobs } = zustandStore();
-    const appliedJobs = zustandStore(state => state.appliedJobs);
+//    const { loadAppliedJobs } = zustandStore();
+//    const appliedJobs = zustandStore(state => state.appliedJobs);
 
+    const [appliedJobs, setAppliedJobs] = useState<any[]>([])
     const getEvals = async () => {
         const res: any = await jc.fetchAppliedJobs();
         if (res != null) {
             // loadAppliedJobs(res.data)
         }
-        console.log(appliedJobs)
+        console.log(res)
+    setAppliedJobs(res)
     };
 
     useEffect(() => {
@@ -27,8 +29,11 @@ function AppliedJobs() {
                 }
             )
             .subscribe();
-        getEvals();
     })
+   
+  useEffect(()=>{
+    getEvals();
+  }, [])
 
     return (
         <div className="w-screen h-screen">
