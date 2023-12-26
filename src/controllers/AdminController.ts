@@ -33,7 +33,7 @@ const createJobOpening = async (
  //* get user applications per one job opening 
 const UsersPerJobApplication = async (opening_id: number) => {
   const response = await supabase.from("CandidateSubmissions")
-     .select("*, user(*)")
+     .select("*,Users(*)")
      .eq("opening_id", opening_id);
 
    return response.data;

@@ -86,7 +86,7 @@ function LoginPage() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex flex-wrap justify-between">
-              <button className="btn btn-ghost">New User? Click here</button>
+              <button className="btn btn-ghost" onClick={()=> navigate("/register")}>New User? Click here</button>
               <button className="btn btn-ghost">Forgot Password?</button>
             </div>
             <button

@@ -6,14 +6,20 @@ import { useNavigate } from "react-router-dom";
 function RegisterPage() {
   const navigate = useNavigate();
   //   const url = import.meta.env.VITE_SUPABASE_URL;
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isOrg, setIsOrg] = useState(false);
 
   const { setUserId } = zustandStore();
+  const isLoading = zustandStore(state=> state.isLoading)
   const { setIsLoading, setUserExpiryIn } = zustandStore();
 
   const register = async () => {
-    const res = await authFunc.registerUser(email, password.toString());
+    setIsLoading(true);
+    const res = await authFunc.registerUser(name, email, password.toString(), isOrg);
+
     if (res.status === "ok") {
       setUserId(res.candidateID!);
       setIsLoading(false);
@@ -21,11 +27,17 @@ function RegisterPage() {
         setUserExpiryIn(res.sessionExpiryIn);
       }
       navigate("/login");
+    } else if (res.status === "isOrg") {
+      setIsLoading(false);
+      navigate("/admin");
+    } else if (res.status === "notOrg") {
+      setIsLoading(false);
+      navigate("/register");
     } else {
-      alert("Error");
+      alert("Error"+res.status);
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div className="h-screen w-screen">
@@ -43,6 +55,31 @@ function RegisterPage() {
           <div className="h-full flex flex-col justify-center md:h-1/2 w-1/2">
             <h2 className="text-4xl font-bold">Welcome to</h2>
             <h2 className="text-4xl">EmployEzy</h2>
+             <div className="dropdown mt-5">
+              <div tabIndex={0} role="button" className="btn m-1">
+                Are You An Organisation?
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => setIsOrg(true)}>
+                  <a>Yes</a>
+                </li>
+                <li onClick={() => setIsOrg(false)}>
+                  <a>No</a>
+                </li>
+              </ul>
+            </div>
+ <div className="label  mt-10">
+              <span className="label-text">Name</span>
+            </div>
+            <input
+              type="text"
+              placeholder="John Doe"
+              className="input input-bordered w-full"
+              onChange={e => setName(e.target.value)}
+            />
             <div className="label  mt-10">
               <span className="label-text">Email</span>
             </div>
@@ -62,7 +99,9 @@ function RegisterPage() {
               onChange={e => setPassword(e.target.value)}
             />
             <button className="btn btn-primary w-full mt-5" onClick={register}>
-              Register
+               {isLoading
+                ? <span className="loading loading-dots loading-md" />
+                : "Register"}
             </button>
           </div>
         </div>
