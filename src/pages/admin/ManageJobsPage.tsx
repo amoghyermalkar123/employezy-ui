@@ -3,11 +3,21 @@
 import zustandStore from "../../store/ZustandStore";
 import ApplicationTableComp from "../../components/adminComp/ApplicationTableComp";
 import { CgClose } from "react-icons/cg";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 function ManageJobsPage() {
   const { setJobViewState } = zustandStore();
   const JobViewState = zustandStore(state => state.jobViewState);
-  
+
+  const location = useLocation();
+  const state = location.state;
+
+  const data = JSON.parse(state);
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   return (
     <div className="h-screen w-screen">
@@ -26,9 +36,7 @@ function ManageJobsPage() {
             </button>
             <h2 className="text-2xl font-bold">Evaluation</h2>
           </div>
-          <div className="">
-            
-          </div>
+          <div className="" />
         </div>}
     </div>
   );

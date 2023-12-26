@@ -13,7 +13,7 @@ function ApplicationTableComp() {
 
   const handleJobs = async () => {
     try {
-      const res = await AdminController.AllApplications();
+      const res = await AdminController.UsersPerJobApplication(1);
       console.log(res);
       setJobs(res || []);
     } catch (error) {
@@ -30,16 +30,14 @@ function ApplicationTableComp() {
       <table className="table">
         <thead>
           <tr>
-            <th>Opening Name</th>
-            <th>Location</th>
-            <th>Salary</th>
+            <th>Applicant Name</th>
+            <th>Rating</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {jobs.map((item: any, index: number) =>
             <tr key={index}>
-             
               <td>
                 {item.opening_name}
               </td>

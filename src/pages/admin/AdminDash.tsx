@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { IoAdd } from "react-icons/io5";
-import { MdManageAccounts } from "react-icons/md";
 import CardsComp from "../../components/adminComp/CardsComp";
 import TableComp from "../../components/adminComp/TableComp";
 import InfoComp from "../../components/adminComp/InfoComp";
@@ -66,7 +65,6 @@ function AdminDash() {
           {/* navbar ends here */}
           {/* stats section starts here */}
           <section id="stats" className="p-4 w-full">
-            <h2 className="font-medium text-xl mb-5">Job Statistics</h2>
             <CardsComp />
           </section>
           <section className="p-4 w-full">
@@ -96,13 +94,7 @@ function AdminDash() {
               <IoAdd className="text-2xl" />
               Create Opening
             </button>
-            <button
-              className="btn btn-primary btn-outline w-full mt-5"
-              onClick={() => navigate("/admin/manage")}
-            >
-              <MdManageAccounts className="text-2xl" />
-              Manage Applications
-            </button>
+            
             <li className="mt-5">
               <a>Sidebar Item 1</a>
             </li>

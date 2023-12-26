@@ -30,7 +30,7 @@ function TableComp() {
           <tr>
             <th>Opening Name</th>
             <th>Location</th>
-            <th>Salary</th>       
+            <th>Salary</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -46,8 +46,14 @@ function TableComp() {
               <td>
                 {item.salary}
               </td>
-<td>
-                <button className="btn btn-primary btn-outline" onClick={()=>navigate('/admin/manage', {state: JSON.stringify(item)})}>View More</button>
+              <td>
+                <button
+                  className="btn btn-primary btn-outline"
+                  onClick={() =>
+                    navigate("/admin/manage", { state: JSON.stringify(item.opening_id) })}
+                >
+                  View More
+                </button>
               </td>
             </tr>
           )}
