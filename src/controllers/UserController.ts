@@ -1,11 +1,5 @@
 import supabase from "../utils/supabaseClient"
-
-interface UserSession {
-  status: string,
-  orgID?: string
-  candidateID?: string,
-  sessionExpiryIn?: number | null,
-}
+import { UserSession } from "../models/User";
 
 // TODO: create supabase client once
 const handleLogin = async (email: string, password: string, isOrg:boolean): Promise<UserSession> => {

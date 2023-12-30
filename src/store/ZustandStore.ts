@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
+import { UserSession } from "../models/User";
 
 interface StoreState {
   isLoading: boolean;
@@ -22,6 +23,9 @@ interface StoreState {
 
   appliedJobs: any[];
   loadAppliedJobs: (appliedJobs: any[]) => void;
+
+  userDetails: UserSession | null;
+  setUserDetails: (userDetails: UserSession) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -59,6 +63,11 @@ const zustandStore = create<StoreState>(set => ({
   appliedJobs: [],
   loadAppliedJobs: (appliedJobs: any[]) => {
     set({ appliedJobs: appliedJobs });
+  },
+
+  userDetails: null,
+  setUserDetails: (userDetails: UserSession) => {
+    set({ userDetails: userDetails});
   },
 }));
 

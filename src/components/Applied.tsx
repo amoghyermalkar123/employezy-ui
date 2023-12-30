@@ -1,51 +1,57 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabaseClient.ts";
 import jc from "../controllers/JobController";
-//import zustandStore from "../store/ZustandStore.ts";
+import zustandStore from "../store/ZustandStore.ts";
+
+interface AppliedJobUI {
+    company: string,
+    ai_evaluation: string,
+    rating: number,
+}
 
 function AppliedJobs() {
-//    const { loadAppliedJobs } = zustandStore();
-//    const appliedJobs = zustandStore(state => state.appliedJobs);
-
-    const [appliedJobs, setAppliedJobs] = useState<any[]>([])
-    const getEvals = async () => {
-        const res: any = await jc.fetchAppliedJobs();
-        if (res != null) {
-            // loadAppliedJobs(res.data)
-        }
-        console.log(res)
-    setAppliedJobs(res)
-    };
+    const userDetails = zustandStore(state => state.userDetails);
+    const [appliedJobs, setAppliedJobs] = useState<AppliedJobUI[]>([]);
 
     useEffect(() => {
-        supabase
-            .channel("sub_res_insert_events")
-            .on(
-                "postgres_changes",
-                { event: "INSERT", schema: "public", table: "CandidateSubmissions" },
-                payload => {
-                    console.log("Change received!", payload);
+        const getEvals = async () => {
+            if (userDetails && userDetails.candidateID) {
+                const res: any = await jc.fetchAppliedJobs(userDetails.candidateID);
+                if (res != null) {
+                    const updatedJobs = res.map((item) => {
+                        const parsed = JSON.parse(item.CandidateSubmissions[0].ai_evaluation);
+                        return {
+                            ai_evaluation: parsed.evaluation,
+                            company: item.Orgs.name,
+                            rating: parsed.rating,
+                        };
+                    });
+
+                    setAppliedJobs(prevJobs => {
+                        // Use a Set to ensure uniqueness based on ai_evaluation
+                        const uniqueJobs = new Set([...prevJobs, ...updatedJobs]);
+                        return [...uniqueJobs];
+                    });
                 }
-            )
-            .subscribe();
-    })
-   
-  useEffect(()=>{
-    getEvals();
-  }, [])
+            }
+        };
+
+        getEvals();
+    }, [userDetails]);
 
     return (
         <div className="w-screen h-screen">
-            <div className=" h-full mx-4 md:mx-12 lg:mx-24 xl:mx-48">
-                <div className="w-full flex flex-col p-8 border-2 shadow-md my-2 rounded-lg">
-                    <div className="w-full flex flex-row justify-between items-center">
-                        <h2>company</h2>
-                        <h2>rating</h2>
+            <div className="h-full mx-4 md:mx-12 lg:mx-24 xl:mx-48">
+                {appliedJobs.map((job, index) => (
+                    <div key={index} className="w-full flex flex-col p-8 border-2 shadow-md my-2 rounded-lg">
+                        <div className="w-full flex flex-row justify-between items-center">
+                            <h2>{job.company}</h2>
+                            <h2>{job.rating}</h2>
+                        </div>
+                        <div className="divider divide-x-0"></div>
+                        <p>{job.ai_evaluation}</p>
                     </div>
-                    <div className="divider divide-x-0"></div>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur laborum eligendi alias distinctio eos ipsam ipsum nulla! Iste dolore, cupiditate sunt aliquam a hic eius iusto maiores alias, inventore error pariatur! Cum pariatur debitis fugiat maiores expedita, est ullam ad nesciunt voluptatibus, voluptate nisi velit beatae odit! Maxime error mollitia cupiditate quo nisi illo quia similique quod, aut nemo impedit, tenetur tempore quidem natus, aspernatur repellat non est! Quo nam soluta, dolore dolorem temporibus maxime quis delectus modi doloremque quidem eligendi repudiandae dolor quisquam, ab quibusdam nesciunt accusantium debitis odio libero dolores cum. Excepturi, necessitatibus nisi aut commodi aliquid reprehenderit!</p>
-                </div>
+                ))}
             </div>
         </div>
     );

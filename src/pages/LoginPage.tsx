@@ -11,7 +11,8 @@ function LoginPage() {
   const isLoading = zustandStore(state => state.isLoading);
   const navigate = useNavigate();
   const { setUserId } = zustandStore();
-
+  const { setUserDetails } = zustandStore();
+  
   const login = async () => {
     setIsLoading(true);
     const res = await authFunc.handleLogin(email, password.toString(), isOrg);
@@ -22,6 +23,8 @@ function LoginPage() {
       if (res.sessionExpiryIn) {
         setUserExpiryIn(res.sessionExpiryIn);
       }
+      localStorage.setItem("userDetails", JSON.stringify(res))
+      setUserDetails(res)
       navigate("/home");
     } else if (res.status === "isOrg") {
       setIsLoading(false);

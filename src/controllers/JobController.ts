@@ -1,5 +1,7 @@
 import CandidateSubmission from "../types/submission";
 import supabase from "../utils/supabaseClient.ts";
+import { v5 as uuidv5 } from 'uuid';
+
 
 // submit assignment
 const submitAssignment = async (cs: CandidateSubmission) => {
@@ -15,13 +17,16 @@ const getAllOpenings = async () => {
   return response.data;
 };
 
-const fetchAppliedJobs = async () => {
+const fetchAppliedJobs = async (candidateID: string) => {
   const data = await supabase
     .from('JobOpenings')
     .select(`*,
-            subs:CandidateSubmissions(*),
-            orgs:Orgs(*)
+            CandidateSubmissions!inner(*),
+            Orgs(*)
         `)
+    .eq("CandidateSubmissions.candidate_id", candidateID)
+
   return data.data
 }
+
 export default { getAllOpenings, submitAssignment, fetchAppliedJobs };
