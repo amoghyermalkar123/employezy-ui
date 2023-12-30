@@ -1,43 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import zustandStore from "../../store/ZustandStore";
 import ApplicationTableComp from "../../components/adminComp/ApplicationTableComp";
-import { CgClose } from "react-icons/cg";
+
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import AdminController from "../../controllers/AdminController";
 
 function ManageJobsPage() {
-  const { setJobViewState } = zustandStore();
-  const JobViewState = zustandStore(state => state.jobViewState);
+  const [jobs, setJobs] = useState<any[]>([]);
 
   const location = useLocation();
   const state = location.state;
-
+  //* getting the opening id for table used to show submissions per job
   const data = JSON.parse(state);
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  useEffect(
+    () => {
+      console.log(data);
+    },
+    [data]
+  );
+
+  useEffect(
+    () => {
+      const handleJobs = async () => {
+        try {
+          const res = await AdminController.UsersPerJobApplication(data);
+          console.log(res);
+          setJobs(res || []);
+        } catch (error) {
+          console.error("Error fetching jobs:", error);
+          setJobs([]);
+        }
+      };
+      handleJobs();
+    },
+    [data]
+  );
 
   return (
     <div className="h-screen w-screen">
       <div className="p-8">
         <h2 className="text-4xl font-medium mb-5">Manage Applications</h2>
-        <ApplicationTableComp />
+        <ApplicationTableComp tableData={jobs} />
       </div>
-      {JobViewState &&
-        <div className="fixed top-0 right-0 h-full w-full bg-base-200 text-black z-50 rounded-xl p-8 md:w-1/3">
-          <div className="flex flex-row justify-between">
-            <button
-              className="btn btn-outline"
-              onClick={() => setJobViewState(false)}
-            >
-              <CgClose classname="text-2xl" />
-            </button>
-            <h2 className="text-2xl font-bold">Evaluation</h2>
-          </div>
-          <div className="" />
-        </div>}
     </div>
   );
 }

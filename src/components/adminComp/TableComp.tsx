@@ -50,7 +50,9 @@ function TableComp() {
                 <button
                   className="btn btn-primary btn-outline"
                   onClick={() =>
-                    navigate("/admin/manage", { state: JSON.stringify(item.opening_id) })}
+                    navigate("/admin/manage", {
+                      state: JSON.stringify(item.opening_id)
+                    })}
                 >
                   View More
                 </button>

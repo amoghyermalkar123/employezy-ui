@@ -30,26 +30,30 @@ const createJobOpening = async (
   }
 };
 
- //* get user applications per one job opening 
+//* get user applications per one job opening
 const UsersPerJobApplication = async (opening_id: number) => {
-  const response = await supabase.from("CandidateSubmissions")
-     .select("*,Users(*)")
-     .eq("opening_id", opening_id);
+  const response = await supabase
+    .from("CandidateSubmissions")
+    .select("*,users:Users(*)")
+    .eq("opening_id", opening_id);
 
-   return response.data;
- };
+  return response.data;
+};
 
 //* Get all Applications
-const AllApplications = async (org_id:number) => {
+const AllApplications = async (org_id: number) => {
   const { data, error } = await supabase
-        .from('JobOpenings')
-        .select(`*,
+    .from("JobOpenings")
+    .select(
+      `*,
             subs:CandidateSubmissions(*),
             orgs:Orgs(*)
-        `).eq("org_id", org_id)
-  console.log(data,error);
-  
-  return data
+        `
+    )
+    .eq("org_id", org_id);
+  console.log(data, error);
+
+  return data;
 };
 
 export default { createJobOpening, AllApplications, UsersPerJobApplication };

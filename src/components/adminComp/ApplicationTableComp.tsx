@@ -1,29 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from "react";
-import AdminController from "../../controllers/AdminController";
+import { useState } from "react";
 import zustandStore from "../../store/ZustandStore";
+import { CgClose } from "react-icons/cg";
 
-function ApplicationTableComp() {
-  const [jobs, setJobs] = useState<any[]>([]);
+function ApplicationTableComp({ tableData }: any) {
   const { setJobViewState } = zustandStore();
+  const [jobIndex, setJobIndex] = useState(0);
+
+  const JobViewState = zustandStore(state => state.jobViewState);
 
   const handleSideBar = () => {
     setJobViewState(true);
   };
-
-  const handleJobs = async () => {
-    try {
-      const res = await AdminController.UsersPerJobApplication(1);
-      console.log(res);
-      setJobs(res || []);
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
-      setJobs([]);
-    }
-  };
-  useEffect(() => {
-    handleJobs();
-  }, []);
 
   return (
     <div className="overflow-auto">
@@ -36,10 +24,10 @@ function ApplicationTableComp() {
           </tr>
         </thead>
         <tbody>
-          {jobs.map((item: any, index: number) =>
+          {tableData.map((item: any, index: number) =>
             <tr key={index}>
               <td>
-                {item.opening_name}
+                {item.users.email}
               </td>
               <td>
                 {item.location}
@@ -50,7 +38,10 @@ function ApplicationTableComp() {
               <td className="flex flex-col items-center md:flex-row">
                 <button
                   className="btn btn-outline w-max btn-primary"
-                  onClick={handleSideBar}
+                  onClick={() => {
+                    handleSideBar();
+                    setJobIndex(index);
+                  }}
                 >
                   View More
                 </button>
@@ -65,6 +56,23 @@ function ApplicationTableComp() {
           )}
         </tbody>
       </table>
+
+      {JobViewState &&
+        <div className="fixed top-0 right-0 h-full w-full bg-base-200 text-black z-50 rounded-xl p-8 md:w-1/3">
+          <div className="flex flex-row justify-between">
+            <button
+              className="btn btn-outline"
+              onClick={() => setJobViewState(false)}
+            >
+              <CgClose classname="text-2xl" />
+            </button>
+            <h2 className="text-2xl font-bold">Evaluation</h2>
+          </div>
+          {/* content goes here */}
+          <div className="">
+            {jobIndex}
+          </div>
+        </div>}
     </div>
   );
 }
