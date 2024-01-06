@@ -61,7 +61,7 @@ function JobPostings(props: { searchTerm:string }) {
   }, []);
 
   return (
-    <div className="bg-base-200 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-8">
       {searchJob ? searchJob.map((item: any, index: number) =>
         <JobPost key={index} item={item} />
       ) : jobs.map((item: any, index: number) =>

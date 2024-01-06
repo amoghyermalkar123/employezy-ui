@@ -40,7 +40,7 @@ const zustandStore = create<StoreState>(set => ({
     set({ userExpiryIn: expiry });
   },
 
-  pageIndex: 2,
+  pageIndex: 0,
   setPageIndex: (pageIndex: number) => {
     set({ pageIndex: pageIndex });
   },

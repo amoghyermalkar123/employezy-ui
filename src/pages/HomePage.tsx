@@ -5,6 +5,7 @@ import SavedJobs from "../components/SavedJobs";
 import userAuth from "../controllers/UserController.ts";
 import { useNavigate } from "react-router-dom";
 import AppliedJobs from "../components/Applied.tsx";
+import Dashboard from "./Dashboard.tsx";
 
 function HomePage() {
   const pageIndex = zustandStore(state => state.pageIndex);
@@ -21,10 +22,12 @@ function HomePage() {
   const renderPage = () => {
     switch (pageIndex) {
       case 0:
-        return <DiscoverPage searchTerm={searchTerm} />;
+        return <Dashboard/>;
       case 1:
-        return <SavedJobs />;
+        return <DiscoverPage searchTerm={searchTerm} />;
       case 2:
+        return <SavedJobs />;
+      case 3:
         return <AppliedJobs />;
       default:
         return <div>Invalid Page Index!</div>;
@@ -38,7 +41,7 @@ function HomePage() {
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col">
             {/* Navbar */}
-            <div className="w-full navbar bg-base-300 flex justify-between">
+            <div className="w-full navbar bg-white flex justify-between">
               <div className="flex-none lg:hidden">
                 <label
                   htmlFor="my-drawer-3"
@@ -48,7 +51,7 @@ function HomePage() {
                   <HiMenuAlt2 className="text-2xl" />
                 </label>
               </div>
-              <div className="w-40 px-2 mx-2 font-bold text-xl">EmployEzy</div>
+              <div className="w-40 px-2 mx-2 font-bold text-xl cursor-pointer" onClick={() => setPageIndex(0)}>EmployEzy</div>
               {/*  navbar center */}
               <div className="flex-1 navbar-center hidden md:block lg:flex">
                 <div className="form-control w-full">
@@ -64,13 +67,13 @@ function HomePage() {
               <div className="flex-none hidden lg:block">
                 <ul className="menu menu-horizontal">
                   {/* Navbar menu content here */}
-                  <li onClick={() => setPageIndex(0)}>
+                  <li onClick={() => setPageIndex(1)}>
                     <a>Discover</a>
                   </li>
-                  <li onClick={() => setPageIndex(1)}>
+                  <li onClick={() => setPageIndex(2)}>
                     <a>Saved Jobs</a>
                   </li>
-                  <li onClick={() => setPageIndex(2)}>
+                  <li onClick={() => setPageIndex(3)}>
                     <a>Applied Jobs</a>
                   </li>
                 </ul>
