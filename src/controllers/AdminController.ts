@@ -56,4 +56,21 @@ const AllApplications = async (org_id: number) => {
   return data;
 };
 
-export default { createJobOpening, AllApplications, UsersPerJobApplication };
+//* Get all Jobs
+const AllJobs = async (org_id: number) => {
+  const { data, error } = await supabase
+    .from("JobOpenings")
+    .select("*")
+    .eq("org_id", org_id);
+
+  console.log(data, error);
+
+  return data;
+};
+
+export default {
+  createJobOpening,
+  AllApplications,
+  UsersPerJobApplication,
+  AllJobs
+};
