@@ -94,12 +94,9 @@ function AdminDash() {
               <IoAdd className="text-2xl" />
               Create Opening
             </button>
-            
-            <li className="mt-5">
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
+
+            <li className="mt-5" onClick={() => navigate("/admin/managejobs")}>
+              <a>Manage Jobs</a>
             </li>
           </ul>
         </div>

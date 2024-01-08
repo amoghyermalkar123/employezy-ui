@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AdminController from "../../controllers/AdminController";
 import Job from "../../types/jobTypes";
 
@@ -9,13 +9,28 @@ const handleJobs = async () => {
     const JobData: Job[] | null = await AdminController.AllJobs(org.org_id);
     if (JobData) {
       // use JobData
+      return JobData;
     }
   }
 };
 
 function ManageJobPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+
+  const handleDelete = async (opening_id: number) => {
+    const res = await AdminController.DeleteJob(opening_id);
+    if (res === null) {
+      console.log(res);
+    }
+  };
+
   useEffect(() => {
-    handleJobs();
+    const data = handleJobs();
+    data.then(jobData => {
+      if (jobData) {
+        setJobs(jobData);
+      }
+    });
   }, []);
 
   return (
@@ -30,34 +45,41 @@ function ManageJobPage() {
               <th>Name</th>
               <th>Job</th>
               <th>Favorite Color</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {/* row 1 */}
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
+            {jobs.map((item, index) =>
+              <tr key={index}>
+                <th>
+                  {index + 1}
+                </th>
+                <td>
+                  {item.opening_name}
+                </td>
+                <td>
+                  {item.location}
+                </td>
+                <td>
+                  {item.salary}
+                </td>
+                <td>
+                  <button
+                    className="btn btn-error btn-outline"
+                    onClick={() => handleDelete(item.opening_id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            )}
             {/* row 2 */}
-            <tr className="hover">
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            {/* row 3 */}
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
   );
 }
+
 export default ManageJobPage;

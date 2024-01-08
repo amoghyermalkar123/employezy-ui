@@ -61,7 +61,20 @@ const AllJobs = async (org_id: number) => {
   const { data, error } = await supabase
     .from("JobOpenings")
     .select("*")
-    .eq("org_id", org_id);
+    .eq("org_id", org_id)
+    .neq("is_deleted", true);
+
+  console.log(data, error);
+
+  return data;
+};
+
+//* Update Job status to deleted
+const DeleteJob = async (job_id: number) => {
+  const { data, error } = await supabase
+    .from("JobOpenings")
+    .update({ is_deleted: true })
+    .eq("opening_id", job_id);
 
   console.log(data, error);
 
@@ -72,5 +85,6 @@ export default {
   createJobOpening,
   AllApplications,
   UsersPerJobApplication,
-  AllJobs
+  AllJobs,
+  DeleteJob
 };

@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
+
+import { ReactNode } from "react";
 import zustandStore from "../../store/ZustandStore";
 import { CgClose } from "react-icons/cg";
 
 function ApplicationTableComp({ tableData }: any) {
   const { setJobViewState } = zustandStore();
-  const [jobIndex, setJobIndex] = useState(0);
 
   const JobViewState = zustandStore(state => state.jobViewState);
 
   const handleSideBar = () => {
     setJobViewState(true);
+  };
+
+  const parseEval = async (evaluation: string) => {
+    const data = await JSON.parse(evaluation);
+    return data.code.evaluation;
   };
 
   return (
@@ -42,7 +47,6 @@ function ApplicationTableComp({ tableData }: any) {
                     className="btn btn-outline w-max btn-primary"
                     onClick={() => {
                       handleSideBar();
-                      setJobIndex(index);
                     }}
                   >
                     View More
@@ -69,7 +73,7 @@ function ApplicationTableComp({ tableData }: any) {
                   </div>
                   {/* content goes here */}
                   <div className="mt-8">
-                    {item.ai_evaluation}
+                    {(parseEval(item.evaluation) as unknown) as ReactNode}
                   </div>
                 </div>}
             </div>
