@@ -37,7 +37,7 @@ function ManageJobPage() {
     <div className="h-screen w-screen">
       <div className="overflow-x-auto mx-4 md:mx-12 lg:mx-24 xl:48 p-4">
         <h2 className="text-4xl font-semibold tracking-wider">Manage Jobs</h2>
-        <table className="table mt-10">
+        <table className="table mt-10 ">
           {/* head */}
           <thead>
             <tr>
