@@ -81,10 +81,31 @@ const DeleteJob = async (job_id: number) => {
   return data;
 };
 
+const ScheduleMeeting = async (
+  user_id: number,
+  org_id: number,
+  date: string,
+  meet_link: string
+) => {
+  try {
+    const { data, error } = await supabase
+      .from("Meetings")
+      .insert({ user_id, org_id, date, meet_link });
+    if (data) {
+      console.log(data);
+    } else {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export default {
   createJobOpening,
   AllApplications,
   UsersPerJobApplication,
   AllJobs,
-  DeleteJob
+  DeleteJob,
+  ScheduleMeeting
 };
