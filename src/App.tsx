@@ -11,6 +11,7 @@ import AdminDash from "./pages/admin/AdminDash";
 import ManageJobsPage from "./pages/admin/ManageApplicants";
 import LandingPage from "./pages/LandingPage";
 import ManageJobPage from "./pages/admin/ManageJobPage";
+import CandidateDetailsPage from "./pages/admin/candidateDetailsPage";
 
 function App() {
   const [shouldRender, setShouldRender] = useState(false);
@@ -42,6 +43,10 @@ function App() {
           <Route path="/admin/manage" element={<ManageJobsPage />} />
           <Route path="/admin" element={<AdminDash />} />
           <Route path="/admin/managejobs" element={<ManageJobPage />} />
+          <Route
+            path="/admin/candidate-details"
+            element={<CandidateDetailsPage />}
+          />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />

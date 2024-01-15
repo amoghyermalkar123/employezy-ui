@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import zustandStore from "../../store/ZustandStore";
 import { CgClose } from "react-icons/cg";
 
 function ApplicationTableComp({ tableData }: any) {
   const { setJobViewState } = zustandStore();
 
+  const navigate = useNavigate();
+
   const JobViewState = zustandStore(state => state.jobViewState);
 
   const handleSideBar = () => {
     setJobViewState(true);
-  };
-
-  const parseEval = async (evaluation: string) => {
-    const data = await JSON.parse(evaluation);
-    return data.code.evaluation;
   };
 
   return (
@@ -47,6 +43,7 @@ function ApplicationTableComp({ tableData }: any) {
                     className="btn btn-outline w-max btn-primary"
                     onClick={() => {
                       handleSideBar();
+                      navigate("/admin/candidate-details", { state: item });
                     }}
                   >
                     View More
@@ -67,13 +64,13 @@ function ApplicationTableComp({ tableData }: any) {
                       className="btn btn-outline"
                       onClick={() => setJobViewState(false)}
                     >
-                      <CgClose classname="text-2xl" />
+                      <CgClose className="text-2xl" />
                     </button>
                     <h2 className="text-2xl font-bold">Evaluation</h2>
                   </div>
                   {/* content goes here */}
                   <div className="mt-8">
-                    {(parseEval(item.evaluation) as unknown) as ReactNode}
+                    {item.ai_evaluation}
                   </div>
                 </div>}
             </div>

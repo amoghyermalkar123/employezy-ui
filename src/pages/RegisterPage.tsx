@@ -13,12 +13,17 @@ function RegisterPage() {
   const [isOrg, setIsOrg] = useState(false);
 
   const { setUserId } = zustandStore();
-  const isLoading = zustandStore(state=> state.isLoading)
+  const isLoading = zustandStore(state => state.isLoading);
   const { setIsLoading, setUserExpiryIn } = zustandStore();
 
   const register = async () => {
     setIsLoading(true);
-    const res = await authFunc.registerUser(name, email, password.toString(), isOrg);
+    const res = await authFunc.registerUser(
+      name,
+      email,
+      password.toString(),
+      isOrg
+    );
 
     if (res.status === "ok") {
       setUserId(res.candidateID!);
@@ -34,10 +39,10 @@ function RegisterPage() {
       setIsLoading(false);
       navigate("/register");
     } else {
-      alert("Error"+res.status);
+      alert("Error" + res.status);
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="h-screen w-screen">
@@ -55,23 +60,15 @@ function RegisterPage() {
           <div className="h-full flex flex-col justify-center md:h-1/2 w-1/2">
             <h2 className="text-4xl font-bold">Welcome to</h2>
             <h2 className="text-4xl">EmployEzy</h2>
-             <div className="dropdown mt-5">
-              <div tabIndex={0} role="button" className="btn m-1">
-                Are You An Organisation?
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li onClick={() => setIsOrg(true)}>
-                  <a>Yes</a>
-                </li>
-                <li onClick={() => setIsOrg(false)}>
-                  <a>No</a>
-                </li>
-              </ul>
-            </div>
- <div className="label  mt-10">
+            <label className="cursor-pointer label">
+              <span className="label-text">Are you an Organisation</span>
+              <input
+                type="checkbox"
+                className="toggle toggle-primary"
+                onChange={() => setIsOrg(!isOrg)}
+              />
+            </label>
+            <div className="label">
               <span className="label-text">Name</span>
             </div>
             <input
@@ -80,7 +77,7 @@ function RegisterPage() {
               className="input input-bordered w-full"
               onChange={e => setName(e.target.value)}
             />
-            <div className="label  mt-10">
+            <div className="label">
               <span className="label-text">Email</span>
             </div>
             <input
@@ -89,7 +86,7 @@ function RegisterPage() {
               className="input input-bordered w-full"
               onChange={e => setEmail(e.target.value)}
             />
-            <div className="label mt-5">
+            <div className="label">
               <span className="label-text">Password</span>
             </div>
             <input
@@ -98,8 +95,16 @@ function RegisterPage() {
               className="input input-bordered w-full"
               onChange={e => setPassword(e.target.value)}
             />
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-primary w-full my-2"
+            />
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-primary w-full my-2"
+            />
             <button className="btn btn-primary w-full mt-5" onClick={register}>
-               {isLoading
+              {isLoading
                 ? <span className="loading loading-dots loading-md" />
                 : "Register"}
             </button>

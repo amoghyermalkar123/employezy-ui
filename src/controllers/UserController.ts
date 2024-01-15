@@ -64,7 +64,7 @@ const registerUser = async (name: string, email: string, password: string, isOrg
     };
 
   } else {
-    const response = await supabase.auth.signUp({email, password })
+    const response = await supabase.auth.signUp({email, password} )
     console.log(response.data)
     if (response.data) {
       

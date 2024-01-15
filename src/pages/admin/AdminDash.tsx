@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { IoIosSettings } from "react-icons/io";
+
 import { IoAdd } from "react-icons/io5";
-import CardsComp from "../../components/adminComp/CardsComp";
 import TableComp from "../../components/adminComp/TableComp";
 import InfoComp from "../../components/adminComp/InfoComp";
 import zustandStore from "../../store/ZustandStore";
@@ -27,11 +28,7 @@ function AdminDash() {
               >
                 <HiOutlineMenuAlt1 className="text-2xl" />
               </label>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="input input-bordered w-full max-w-xs"
-              />
+              <a className="btn btn-ghost text-xl">EmployEzy Admin</a>
             </div>
             <div className="dropdown dropdown-end">
               <div
@@ -64,9 +61,9 @@ function AdminDash() {
           </div>
           {/* navbar ends here */}
           {/* stats section starts here */}
-          <section id="stats" className="p-4 w-full">
+          {/* <section id="stats" className="p-4 w-full">
             <CardsComp />
-          </section>
+          </section> */}
           <section className="p-4 w-full">
             <InfoComp />
           </section>
@@ -86,7 +83,7 @@ function AdminDash() {
           />
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
-            <a className="btn btn-ghost text-xl">EmployEzy Admin</a>
+
             <button
               className="btn btn-primary btn-outline w-full mt-5"
               onClick={() => setNewJobSideBarState(true)}
@@ -94,10 +91,13 @@ function AdminDash() {
               <IoAdd className="text-2xl" />
               Create Opening
             </button>
-
-            <li className="mt-5" onClick={() => navigate("/admin/managejobs")}>
-              <a>Manage Jobs</a>
-            </li>
+            <button
+              className="btn btn-primary btn-outline w-full mt-5"
+              onClick={() => navigate("/admin/managejobs")}
+            >
+              <IoIosSettings className="text-2xl" />
+              Manage Jobs
+            </button>
           </ul>
         </div>
       </div>
