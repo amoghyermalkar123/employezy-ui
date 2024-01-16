@@ -35,7 +35,7 @@ function HomePage() {
   };
 
   return (
-    <div className="h-screen w-screen bg-base-200 overflow-y-auto">
+    <div className="h-screen w-screen overflow-y-auto">
       <div className="">
         <div className="drawer">
           <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
