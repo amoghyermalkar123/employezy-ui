@@ -24,7 +24,7 @@ const getRandomPastelColor = () => {
     return pastelColors[randomIndex];
 };
 
-function JobPostings(props: { searchTerm: string }) {
+function JobPostings(props: { searchTerm: string, is_saved: boolean}) {
     const [jobs, setJobs] = useState<any[]>([]);
     const [searchJob, setSearchJobs] = useState<any[]>([]);
 

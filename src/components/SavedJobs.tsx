@@ -1,6 +1,9 @@
+import JobPostings from "./JobPost";
 
-function SavedJobs() {
-    return ( <div>Saved jobs</div> );
+function SavedJobs(props: {searchTerm: string}) {
+    return (  
+        <JobPostings searchTerm={props.searchTerm}/>
+    );
 }
 
 export default SavedJobs;
