@@ -85,8 +85,17 @@ function JobPost({ item }: any) {
 
 
     const handleSave = async () => {
-        const response = await jc.saveJob({
-        })
+        console.log("")
+        const det = localStorage.getItem("userDetails")
+        if (det) {
+            const userDetails = JSON.parse(det);
+            const savedJob = {
+                candidate_id: userDetails.candidateID,
+                opening_id: item.opening_id,
+            }
+            const response = await jc.saveJob(savedJob)
+            console.log("saved",savedJob)
+        }
     }
 
     return (
