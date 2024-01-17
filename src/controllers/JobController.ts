@@ -10,10 +10,16 @@ const submitAssignment = async (cs: CandidateSubmission) => {
     console.log("submission response", response);
 };
 
-const getAllOpenings = async () => {
-    const response = await supabase.from("JobOpenings").select("*, Orgs(*)");
+const getSavedJobs = async (candidateId: string) => {
+    console.log("is", candidateId)
+    const response = await supabase.from("JobOpenings").select("*, Orgs(*), SavedJobs!inner(*)").eq("SavedJobs.candidate_id", candidateId);
     console.log("all opening", response.data);
 
+    return response.data;
+};
+
+const getAllOpenings = async () => {
+    const response = await supabase.from("JobOpenings").select("*, Orgs(*)");
     return response.data;
 };
 
@@ -38,4 +44,4 @@ const saveJob = async (data: SavedJob) => {
     return "error"
 };
 
-export default { getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };
+export default { getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };

@@ -24,14 +24,25 @@ const getRandomPastelColor = () => {
     return pastelColors[randomIndex];
 };
 
-function JobPostings(props: { searchTerm: string, is_saved: boolean}) {
+function JobPostings(props: { searchTerm: string, is_saved: boolean }) {
     const [jobs, setJobs] = useState<any[]>([]);
     const [searchJob, setSearchJobs] = useState<any[]>([]);
 
     const getJobs = async () => {
-        const res = await jc.getAllOpenings();
-        if (res != null) {
-            setJobs(res);
+        const det = localStorage.getItem("userDetails")
+        if (det) {
+            const userDetails = JSON.parse(det);
+            if (props.is_saved) {
+                const res = await jc.getSavedJobs(userDetails.candidateID);
+                if (res != null) {
+                    setJobs(res);
+                }
+            } else {
+                const res = await jc.getAllOpenings();
+                if (res != null) {
+                    setJobs(res);
+                }
+            }
         }
     };
 
@@ -71,30 +82,29 @@ function JobPostings(props: { searchTerm: string, is_saved: boolean}) {
     );
 }
 
-function JobPost({ item }: any) {
-    const normalDate = new Date(item.created_at);
+function JobPost(props: { item: any }) {
+    const normalDate = new Date(props.item.created_at);
     const year = normalDate.getFullYear();
     const month = normalDate.getMonth() + 1; // Month is zero-based, so add 1
     const day = normalDate.getDate();
     const navigate = useNavigate();
 
     const submission = {
-        opening_id: item.opening_id,
-        code_question: item.assignment_problem_statement,
+        opening_id: props.item.opening_id,
+        code_question: props.item.assignment_problem_statement,
     };
 
 
     const handleSave = async () => {
-        console.log("")
-        const det = localStorage.getItem("userDetails")
+        const det = localStorage.getItem("userDetails");
         if (det) {
             const userDetails = JSON.parse(det);
             const savedJob = {
                 candidate_id: userDetails.candidateID,
-                opening_id: item.opening_id,
+                opening_id: props.item.opening_id,
             }
             const response = await jc.saveJob(savedJob)
-            console.log("saved",savedJob)
+            console.log("saved", savedJob)
         }
     }
 
@@ -115,16 +125,16 @@ function JobPost({ item }: any) {
                         </p>
                     </div>
                     <div className="p-2 bg-white rounded-full">
-                        <CgBookmark className="text-2xl cursor-pointer" onClick={handleSave}/>
+                        <CgBookmark className="text-2xl cursor-pointer" onClick={handleSave} />
                     </div>
                 </div>
                 <div className="flex flex-row justify-between items-center">
                     <div>
                         <p className="font-medium font-sans">
-                            {item.Orgs.name}
+                            {props.item.Orgs.name}
                         </p>
                         <h2 className="font-bold font-mono text-2xl">
-                            {item.opening_name}
+                            {props.item.opening_name}
                         </h2>
                     </div>
                     <span className="p-2 bg-white rounded-full">
@@ -141,10 +151,10 @@ function JobPost({ item }: any) {
             <div className="flex flex-row justify-between px-2 py-4">
                 <div className="flex flex-col justify-start">
                     <p className="font-bold font-mono">
-                        ${item.salary}/ year
+                        ${props.item.salary}/ year
                     </p>
                     <p className="text-gray-500">
-                        {item.location}
+                        {props.item.location}
                     </p>
                 </div>
                 <button
