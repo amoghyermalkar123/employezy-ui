@@ -1,6 +1,21 @@
 import { AppliedJobUI } from "../models/jobs.ts";
+import Nudge from "../models/nudge.ts";
+import jc from "../controllers/JobController";
 
 export function CandidateDetails(props: { appliedJobs: AppliedJobUI[] }) {
+    const handleNudge = async (nudge: AppliedJobUI) => {
+        const nudgeRecruiter: Nudge = {
+            candidate_id: nudge.candidate_id,
+            submission_id: nudge.submission_id,
+            opening_id: nudge.opening_id,
+            nudge_message: "Hey! Hope you are well, please take a moment to review my submission, Thanks!",
+        }
+        const response = await jc.nudgeAboutOpening(nudgeRecruiter);
+        if (response === "ok") {
+            console.log("nudge called", nudge);
+        }
+    }
+
     return (
         <div>
             {
@@ -8,7 +23,7 @@ export function CandidateDetails(props: { appliedJobs: AppliedJobUI[] }) {
                     return (
                         <div>
                             <h1 className='text-2xl font-bold mb-4'>Application Details</h1>
-                            <button className="btn btn-outline btn-info">Nudge</button>
+                            <button onClick={() => handleNudge(item)} className="btn btn-outline btn-info">Nudge</button>
                             <div className='bg-gray-100 p-4 rounded-lg'>
                                 <div className='flex items-center mb-2'>
                                     <div className='font-bold'>Org Name:</div>

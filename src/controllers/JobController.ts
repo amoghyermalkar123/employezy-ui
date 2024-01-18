@@ -1,4 +1,5 @@
 import { SavedJob } from "../models/jobs.ts";
+import Nudge from "../models/nudge.ts";
 import CandidateSubmission from "../types/submission";
 import supabase from "../utils/supabaseClient.ts";
 
@@ -44,4 +45,13 @@ const saveJob = async (data: SavedJob) => {
     return "error"
 };
 
-export default { getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };
+
+const nudgeAboutOpening = async (nudge: Nudge) => {
+    const response = await supabase.from("Nudges").insert(nudge);
+    if (response.error === null) {
+        return "ok"
+    }
+    return "error"
+}
+
+export default { nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };

@@ -2,6 +2,9 @@ export interface AppliedJobUI {
     company: string;
     ai_evaluation: string;
     rating: string;
+    opening_id: number;
+    submission_id: number;
+    candidate_id: string;
 }
 
 export interface JobOpening {

@@ -23,6 +23,9 @@ function AppliedJobs() {
                             ai_evaluation: parsed.code.evaluation,
                             company: item.Orgs.name,
                             rating: parsed.code.rating,
+                            submission_id: submission.submission_id,
+                            opening_id: item.opening_id,
+                            candidate_id: submission.candidate_id,
                         };
                         return appliedJob;
                     });
