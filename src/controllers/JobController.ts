@@ -54,4 +54,8 @@ const nudgeAboutOpening = async (nudge: Nudge) => {
     return "error"
 }
 
-export default { nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };
+const fetchNudges = async () => {
+    const response = await supabase.from("Nudges").select("*");
+    return response.data
+}
+export default { fetchNudges, nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };

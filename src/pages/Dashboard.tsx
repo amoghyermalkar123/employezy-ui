@@ -1,7 +1,8 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import Nudge from '../models/nudge'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import jc from "../controllers/JobController";
 
 const events = [
     { title: 'Meeting', start: new Date() }
@@ -18,8 +19,17 @@ function renderEventContent(eventInfo) {
 }
 
 function Dashboard() {
+    const [nudges, setNudges] = useState<Nudge[] | null>(null);
     useEffect(() => {
+        const getNudges = async () => {
+            const response: Nudge[] | null = await jc.fetchNudges();
+            if (response != null) {
+                setNudges(response)
+            }
+        }
 
+        getNudges()
+        console.log("nudges fetched yes", nudges)
     }, [])
     return (
         <>
@@ -49,22 +59,22 @@ function Dashboard() {
                                                 <tr>
                                                     <th></th>
                                                     <th>Opening Name</th>
-                                                    <th>SubmittedAt</th>
+                                                    <th>Org Name</th>
+                                                    <th>Application Submitted At</th>
                                                     <th>Last Nudged At</th>
-                                                    <th>Actions</th>
-                                                    <th>Feedback</th>
                                                 </tr>
+                                                {nudges?.map((item, idx) => {
+                                                    return (
+                                                        <tr>
+                                                            <th>1</th>
+                                                            <td>{item.opening_id}</td>
+                                                            <td>{item.opening_id}</td>
+                                                            <td>{item.submission_id}</td>
+                                                            <td>{item.last_nudged_at}</td>
+                                                        </tr>
+                                                    )
+                                                })}
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th>1</th>
-                                                    <td>Cy Ganderton</td>
-                                                    <td>Quality Control Specialist</td>
-                                                    <td>Littel, Schaden and Vandervort</td>
-                                                    <td><button className='badge badge-success'>Nudge Now</button></td>
-                                                    <td>12/16/2020</td>
-                                                </tr>
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -73,6 +83,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
+            )
         </>);
 }
 
