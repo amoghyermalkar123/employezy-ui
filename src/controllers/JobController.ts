@@ -24,6 +24,11 @@ const getAllOpenings = async () => {
     return response.data;
 };
 
+const getMeetingLinks = async () => {
+    const response = await supabase.from("Meetings").select("*");
+    return response.data;
+};
+
 const fetchAppliedJobs = async (candidateID: string) => {
     const data = await supabase
         .from('JobOpenings')
@@ -58,4 +63,4 @@ const fetchNudges = async () => {
     const response = await supabase.from("Nudges").select("*");
     return response.data
 }
-export default { fetchNudges, nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };
+export default { getMeetingLinks, fetchNudges, nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };

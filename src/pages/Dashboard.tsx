@@ -3,10 +3,97 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import Nudge from '../models/nudge'
 import { useEffect, useState } from 'react'
 import jc from "../controllers/JobController";
+import { Meetings } from '../models/User';
 
-const events = [
-    { title: 'Meeting', start: new Date() }
-]
+function CalenderComp() {
+    const [calEvents, setCalEvents] = useState<CalenderType[]>([]);
+    const [selectedEvent, setSelectedEvent] = useState<CalenderType | null>(null);
+
+    const handleEvents = async () => {
+        const response = await jc.getMeetingLinks();
+        if (response) {
+            setCalEvents(response);
+        }
+    };
+
+    useEffect(() => {
+        handleEvents();
+    }, []);
+
+    const events = calEvents.map(event => ({
+        ...event,
+        id: event.id.toString()
+    }));
+
+    const handleEventClick = (eventClickInfo: any) => {
+        const clickedEventId = eventClickInfo.event.id;
+        const clickedEvent = calEvents.find(
+            event => event.id.toString() === clickedEventId
+        );
+        if (clickedEvent) {
+            setSelectedEvent(clickedEvent);
+
+            const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+            if (modal) {
+                modal.showModal();
+            }
+        }
+    };
+
+    return (
+        <div className="">
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                weekends={true}
+                events={events}
+                eventClick={handleEventClick}
+                eventContent={renderEventContent}
+            />
+
+            {selectedEvent &&
+                <dialog id="my_modal_1" className="modal modal-bottom sm:modal-middle">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Event Details</h3>
+                        <ul>
+                            <li>
+                                <b>
+                                    {selectedEvent.org_id}
+                                </b>
+                            </li>
+                            <li>
+                                <i>
+                                    {selectedEvent.user_id}
+                                </i>
+                            </li>
+                            <li>
+                                <a href={selectedEvent.meet_link} target="_blank">
+                                    {selectedEvent.meet_link}
+                                </a>
+                            </li>
+                        </ul>
+                        <div className="modal-action">
+                            <form method="dialog">
+                                <button
+                                    className="btn"
+                                    onClick={() => {
+                                        const modal = document.getElementById(
+                                            "my_modal_1"
+                                        ) as HTMLDialogElement;
+                                        if (modal) {
+                                            modal.close();
+                                        }
+                                    }}
+                                >
+                                    Close
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>}
+        </div>
+    );
+}
 
 // a custom render function
 function renderEventContent(eventInfo) {
@@ -18,8 +105,18 @@ function renderEventContent(eventInfo) {
     )
 }
 
+interface CalenderType {
+    created_at: Date;
+    date: Date;
+    id: number;
+    meet_link: string;
+    org_id: number;
+    user_id: string;
+}
+
 function Dashboard() {
     const [nudges, setNudges] = useState<Nudge[] | null>(null);
+
     useEffect(() => {
         const getNudges = async () => {
             const response: Nudge[] | null = await jc.fetchNudges();
@@ -29,21 +126,15 @@ function Dashboard() {
         }
 
         getNudges()
-        console.log("nudges fetched yes", nudges)
     }, [])
+
+
     return (
         <>
             <div className="flex flex-col h-full w-full bg-white overflow-auto">
                 <div className="w-full flex flex-row flex-wrap justify-evenly my-2 p-2">
                     <div className="w-full md:w-1/2">
-                        <FullCalendar
-                            plugins={[dayGridPlugin]}
-                            initialView='dayGridMonth'
-                            weekends={false}
-                            events={events}
-                            eventContent={renderEventContent}
-                            aspectRatio={2 / 1}
-                        />
+                        <CalenderComp />
                     </div>
                     <div className="w-full md:w-1/2">
                         <div className="card h-full w-full bg-base-100 border-2">
