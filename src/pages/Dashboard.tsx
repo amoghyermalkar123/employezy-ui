@@ -3,15 +3,16 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import Nudge from '../models/nudge'
 import { useEffect, useState } from 'react'
 import jc from "../controllers/JobController";
-import { Meetings } from '../models/User';
 
 function CalenderComp() {
     const [calEvents, setCalEvents] = useState<CalenderType[]>([]);
     const [selectedEvent, setSelectedEvent] = useState<CalenderType | null>(null);
+    const [userId, setUserId] = useState("");
 
     const handleEvents = async () => {
         const response = await jc.getMeetingLinks();
         if (response) {
+            console.log(response)
             setCalEvents(response);
         }
     };
@@ -48,7 +49,7 @@ function CalenderComp() {
                 weekends={true}
                 events={events}
                 eventClick={handleEventClick}
-                eventContent={renderEventContent}
+                eventContent={renderEventContent(userId)}
             />
 
             {selectedEvent &&
@@ -77,6 +78,7 @@ function CalenderComp() {
                                 <button
                                     className="btn"
                                     onClick={() => {
+                                        setUserId(selectedEvent.meet_link);
                                         const modal = document.getElementById(
                                             "my_modal_1"
                                         ) as HTMLDialogElement;
@@ -95,19 +97,20 @@ function CalenderComp() {
     );
 }
 
-// a custom render function
-function renderEventContent(eventInfo) {
+// Render function for calendar events
+function renderEventContent(userId: string) {
     return (
-        <>
-            <b>{eventInfo.timeText}</b>
-            <i>{eventInfo.event.title}</i>
-        </>
-    )
+        <div className="text-wrap overflow-hidden">
+            <p className="p-2 text-white">
+                {userId}
+            </p>
+        </div>
+    );
 }
 
 interface CalenderType {
     created_at: Date;
-    date: Date;
+    start: Date;
     id: number;
     meet_link: string;
     org_id: number;
