@@ -16,7 +16,7 @@ function CandidateDetailsPage() {
   const location = useLocation();
   const state = location.state;
 
-  const [selectedTab, setSelectedTab] = useState("Evaluation");
+  const [selectedTab, setSelectedTab] = useState("Tab 1");
   const [orgId, setOrgId] = useState(0);
   const [link, setLink] = useState("");
 
@@ -40,7 +40,7 @@ function CandidateDetailsPage() {
   useEffect(
     () => {
       orgDetails();
-      console.log(state);
+      console.log(state.ai_evaluation);
     },
     [state]
   );
