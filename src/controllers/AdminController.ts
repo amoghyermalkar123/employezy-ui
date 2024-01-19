@@ -30,23 +30,96 @@ const createJobOpening = async (
   }
 };
 
-//* get job openings per organisation
-const JobsPerCompany = async (org_id: number) => {
+//* get user applications per one job opening
+const UsersPerJobApplication = async (opening_id: number) => {
   const response = await supabase
-    .from("JobOpenings")
-    .select("*")
-    .eq("org_id", org_id);
+    .from("CandidateSubmissions")
+    .select("*,users:Users(*)")
+    .eq("opening_id", opening_id);
 
   return response.data;
 };
 
 //* Get all Applications
-const AllApplications = async (opening_id: number) => {
-  const response = await supabase
-    .from("CandidateSubmissions")
-    .select("*")
-    .eq("opening_id", opening_id);
-  console.log(response.data);
+const AllApplications = async (org_id: number) => {
+  const { data, error } = await supabase
+    .from("JobOpenings")
+    .select(
+      `*,
+            subs:CandidateSubmissions(*),
+            orgs:Orgs(*)
+        `
+    )
+    .eq("org_id", org_id);
+  console.log(data, error);
+
+  return data;
 };
 
-export default { createJobOpening, JobsPerCompany, AllApplications };
+//* Get all Jobs
+const AllJobs = async (org_id: number) => {
+  const { data, error } = await supabase
+    .from("JobOpenings")
+    .select("*")
+    .eq("org_id", org_id)
+    .neq("is_deleted", true);
+
+  console.log(data, error);
+
+  return data;
+};
+
+//* Update Job status to deleted
+const DeleteJob = async (job_id: number) => {
+  const { data, error } = await supabase
+    .from("JobOpenings")
+    .update({ is_deleted: true })
+    .eq("opening_id", job_id);
+
+  console.log(data, error);
+
+  return data;
+};
+
+const ScheduleMeeting = async (
+  user_id: number,
+  org_id: number,
+  date: string,
+  meet_link: string
+) => {
+  try {
+    const { data, error } = await supabase
+      .from("Meetings")
+      .insert({ user_id, org_id, date, meet_link });
+    if (data) {
+      console.log(data);
+    } else {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const fetchNudges = async () => {
+  const response = await supabase.from("Nudges").select(
+    `
+      *,
+      JobOpenings!inner(*),
+      CandidateSubmissions!inner(*),
+      Users!inner(*)
+  `
+  );
+  console.log("resppnse ikde", response);
+  return response.data;
+};
+
+export default {
+  createJobOpening,
+  AllApplications,
+  UsersPerJobApplication,
+  AllJobs,
+  DeleteJob,
+  ScheduleMeeting,
+  fetchNudges
+};

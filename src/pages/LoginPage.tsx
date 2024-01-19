@@ -54,22 +54,17 @@ function LoginPage() {
           <div className="h-full flex flex-col justify-evenly md:h-2/3 w-2/3">
             <h2 className="text-4xl font-bold md:text-6xl">Welcome to</h2>
             <h2 className="text-4xl tracking-widest">EmployEzy</h2>
-            <div className="dropdown mt-5">
-              <div tabIndex={0} role="button" className="btn m-1">
-                Are You An Organisation?
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li onClick={() => setIsOrg(true)}>
-                  <a>Yes</a>
-                </li>
-                <li onClick={() => setIsOrg(false)}>
-                  <a>No</a>
-                </li>
-              </ul>
+            <div className="form-control w-full mt-5">
+              <label className="cursor-pointer label">
+                <span className="label-text">Are you an Organisation</span>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-primary"
+                  onChange={() => setIsOrg(!isOrg)}
+                />
+              </label>
             </div>
+
             <div className="label">
               <span className="label-text">Email</span>
             </div>
@@ -89,7 +84,12 @@ function LoginPage() {
               onChange={e => setPassword(e.target.value)}
             />
             <div className="flex flex-wrap justify-between">
-              <button className="btn btn-ghost">New User? Click here</button>
+              <button
+                className="btn btn-ghost"
+                onClick={() => navigate("/register")}
+              >
+                New User? Click here
+              </button>
               <button className="btn btn-ghost">Forgot Password?</button>
             </div>
             <button

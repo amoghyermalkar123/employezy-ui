@@ -26,6 +26,11 @@ interface StoreState {
 
   userDetails: UserSession | null;
   setUserDetails: (userDetails: UserSession) => void;
+  jobViewState: boolean;
+  setJobViewState: (state: boolean) => void;
+
+  jobUserId: string;
+  setJonUserId: (id: string) => void;
 }
 
 const zustandStore = create<StoreState>(set => ({
@@ -69,6 +74,15 @@ const zustandStore = create<StoreState>(set => ({
   setUserDetails: (userDetails: UserSession) => {
     set({ userDetails: userDetails});
   },
+  jobViewState: false,
+  setJobViewState: (state: boolean) => {
+    set({ jobViewState: state });
+  },
+
+  jobUserId: "",
+  setJonUserId: (id: string) => {
+    set({ jobUserId: id });
+  }
 }));
 
 export default zustandStore;
