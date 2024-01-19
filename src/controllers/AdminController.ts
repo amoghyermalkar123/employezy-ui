@@ -101,11 +101,25 @@ const ScheduleMeeting = async (
   }
 };
 
+const fetchNudges = async () => {
+  const response = await supabase.from("Nudges").select(
+    `
+      *,
+      JobOpenings!inner(*),
+      CandidateSubmissions!inner(*),
+      Users!inner(*)
+  `
+  );
+  console.log("resppnse ikde", response);
+  return response.data;
+};
+
 export default {
   createJobOpening,
   AllApplications,
   UsersPerJobApplication,
   AllJobs,
   DeleteJob,
-  ScheduleMeeting
+  ScheduleMeeting,
+  fetchNudges
 };
