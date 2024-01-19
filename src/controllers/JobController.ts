@@ -59,8 +59,13 @@ const nudgeAboutOpening = async (nudge: Nudge) => {
     return "error"
 }
 
-const fetchNudges = async () => {
-    const response = await supabase.from("Nudges").select("*");
+const fetchNudges = async (candidateID: string) => {
+    const response = await supabase.from("Nudges").select(`
+        *,
+        JobOpenings!inner(*),
+        CandidateSubmissions!inner(*)
+    `).eq("CandidateSubmissions.candidate_id", candidateID);
     return response.data
 }
+
 export default { getMeetingLinks, fetchNudges, nudgeAboutOpening, getSavedJobs, getAllOpenings, submitAssignment, fetchAppliedJobs, saveJob };

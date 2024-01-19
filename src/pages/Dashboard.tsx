@@ -12,7 +12,6 @@ function CalenderComp() {
     const handleEvents = async () => {
         const response = await jc.getMeetingLinks();
         if (response) {
-            console.log(response)
             setCalEvents(response);
         }
     };
@@ -118,19 +117,28 @@ interface CalenderType {
 }
 
 function Dashboard() {
-    const [nudges, setNudges] = useState<Nudge[] | null>(null);
+    const [nudges, setNudges] = useState<any[] | null>(null);
 
     useEffect(() => {
-        const getNudges = async () => {
-            const response: Nudge[] | null = await jc.fetchNudges();
-            if (response != null) {
-                setNudges(response)
+        const det = localStorage.getItem("userDetails")
+        if (det) {
+            const userDetails = JSON.parse(det);
+            const getNudges = async () => {
+                const response: any[] | null = await jc.fetchNudges(userDetails.candidateID);
+                if (response != null) {
+                    setNudges(response.map((nudge) => {
+                        var date = new Date(nudge.CandidateSubmissions.submitted_at)
+                        nudge.CandidateSubmissions.submitted_at = date.toISOString().substring(0, 10);
+
+                        var anotherdate = new Date(nudge.last_nudged_at)
+                        nudge.last_nudged_at = anotherdate.toISOString().substring(0, 10);
+                        return nudge
+                    }))
+                }
             }
+            getNudges()
         }
-
-        getNudges()
     }, [])
-
 
     return (
         <>
@@ -151,19 +159,17 @@ function Dashboard() {
                                         <table className="table table-xs">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
+                                                    <th>Sr No.</th>
                                                     <th>Opening Name</th>
-                                                    <th>Org Name</th>
                                                     <th>Application Submitted At</th>
                                                     <th>Last Nudged At</th>
                                                 </tr>
                                                 {nudges?.map((item, idx) => {
                                                     return (
                                                         <tr>
-                                                            <th>1</th>
-                                                            <td>{item.opening_id}</td>
-                                                            <td>{item.opening_id}</td>
-                                                            <td>{item.submission_id}</td>
+                                                            <th>{idx+1}</th>
+                                                            <td>{item.JobOpenings.opening_name}</td>
+                                                            <td>{item.CandidateSubmissions.submitted_at}</td>
                                                             <td>{item.last_nudged_at}</td>
                                                         </tr>
                                                     )
