@@ -19,7 +19,6 @@ function RegisterPage() {
   const register = async () => {
     setIsLoading(true);
     const res = await authFunc.registerUser(
-      name,
       email,
       password.toString(),
       isOrg
