@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 function RegisterPage() {
   const navigate = useNavigate();
   //   const url = import.meta.env.VITE_SUPABASE_URL;
-
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isOrg, setIsOrg] = useState(false);
@@ -18,11 +16,7 @@ function RegisterPage() {
 
   const register = async () => {
     setIsLoading(true);
-    const res = await authFunc.registerUser(
-      email,
-      password.toString(),
-      isOrg
-    );
+    const res = await authFunc.registerUser(email, password.toString(), isOrg);
 
     if (res.status === "ok") {
       setUserId(res.candidateID!);
@@ -74,7 +68,6 @@ function RegisterPage() {
               type="text"
               placeholder="John Doe"
               className="input input-bordered w-full"
-              onChange={e => setName(e.target.value)}
             />
             <div className="label">
               <span className="label-text">Email</span>
