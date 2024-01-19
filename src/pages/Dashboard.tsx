@@ -1,6 +1,5 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import Nudge from '../models/nudge'
 import { useEffect, useState } from 'react'
 import jc from "../controllers/JobController";
 

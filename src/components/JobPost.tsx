@@ -103,7 +103,7 @@ function JobPost(props: { item: any }) {
                 candidate_id: userDetails.candidateID,
                 opening_id: props.item.opening_id,
             }
-            const response = await jc.saveJob(savedJob)
+            await jc.saveJob(savedJob)
             console.log("saved", savedJob)
         }
     }

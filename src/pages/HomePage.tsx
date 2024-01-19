@@ -26,7 +26,7 @@ function HomePage() {
       case 1:
         return <DiscoverPage searchTerm={searchTerm} />;
       case 2:
-        return <SavedJobs />;
+        return <SavedJobs searchTerm={searchTerm}/>;
       case 3:
         return <AppliedJobs />;
       default:
