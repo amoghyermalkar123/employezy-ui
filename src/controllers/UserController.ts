@@ -1,11 +1,6 @@
 import supabase from "../utils/supabaseClient"
-
-interface UserSession {
-  status: string,
-  orgID?: string
-  candidateID?: string,
-  sessionExpiryIn?: number | null,
-}
+import { UserSession } from "../models/User";
+import Nudge from "../models/nudge";
 
 // TODO: create supabase client once
 const handleLogin = async (email: string, password: string, isOrg: boolean): Promise<UserSession> => {
@@ -92,4 +87,12 @@ const handleLogout = async () => {
   return "error"
 }
 
-export default { handleLogin, registerUser, handleLogout };
+const nudgeAboutOpening = async (nudge: Nudge) => {
+    const response = await supabase.from("Nudges").insert(nudge);
+    if (response.error === null) {
+        return "ok"
+    }
+    return "error"
+}
+
+export default { handleLogin, registerUser, handleLogout, nudgeAboutOpening };

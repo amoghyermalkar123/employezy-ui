@@ -1,53 +1,49 @@
-import { useState } from "react";
-import supabase from "../utils/supabaseClient.ts";
-// const pastelColors = [
-//   "bg-pink-200",
-//   "bg-blue-200",
-//   "bg-purple-200",
-//   "bg-green-200",
-//   "bg-teal-200",
-//   "bg-orange-200",
-//   "bg-indigo-200",
-//   "bg-red-200"
-// ];
-
-// Function to get a random pastel color from the array
-// const getRandomPastelColor = () => {
-//   const randomIndex = Math.floor(Math.random() * pastelColors.length);
-//   return pastelColors[randomIndex];
-// };
+import { useEffect, useState } from "react";
+import jc from "../controllers/JobController";
+import zustandStore from "../store/ZustandStore.ts";
+import { JobOpening, AppliedJobUI, Evaluation } from "../models/jobs.ts";
+import { CandidateDetails } from "./EvalTemp.tsx";
 
 function AppliedJobs() {
-  const [evaluation, setEvaluation] = useState("");
-  supabase
-    .channel("sub_res_insert_events")
-    .on(
-      "postgres_changes",
-      { event: "INSERT", schema: "public", table: "SubmissionResults" },
-      payload => {
-        console.log("Change received!", payload);
-        setEvaluation(payload.new.evaluation);
-      }
-    )
-    .subscribe();
+    const userDetails = zustandStore((state) => state.userDetails);
+    const [appliedJobs, setAppliedJobs] = useState<AppliedJobUI[]>([]);
 
-  return (
-    <div className={`collapse border-2 m-3 p-2 w-3/4 shadow-md  bg-blue-300`}>
-      <input type="radio" name="my-accordion-1" />
-      <div className="collapse-title text-xl font-medium">
-        <span className="font-mono">company: </span>{" "}
-        <span className="font-mono font-semibold">position</span>
-      </div>
-      <div className="collapse-content bg-teal-200 rounded-md">
-        <p className="flex flex-row">
-          <span className="font font-mono">Evaluation:</span>
-          <p>
-            {evaluation}
-          </p>
-        </p>
-      </div>
-    </div>
-  );
+    useEffect(() => {
+        const getEvals = async () => {
+            if (userDetails && userDetails.candidateID) {
+                const response: JobOpening[] | null = await jc.fetchAppliedJobs(
+                    userDetails.candidateID,
+                );
+
+                if (response != null) {
+                    const updatedJobs = response.map((item: JobOpening) => {
+                        const submission = item.CandidateSubmissions[0];
+                        const parsed: Evaluation = JSON.parse(submission.ai_evaluation);
+                        const appliedJob: AppliedJobUI = {
+                            ai_evaluation: parsed.code.evaluation,
+                            company: item.Orgs.name,
+                            rating: parsed.code.rating,
+                            submission_id: submission.submission_id,
+                            opening_id: item.opening_id,
+                            candidate_id: submission.candidate_id,
+                        };
+                        return appliedJob;
+                    });
+                    setAppliedJobs([...updatedJobs]);
+                }
+            }
+        };
+        getEvals();
+        console.log("appl", appliedJobs)
+    }, []);
+
+    return (
+        <div className="w-screen h-screen bg-white">
+            <div className="h-full mx-4 md:mx-12 lg:mx-24 xl:mx-48 flex flex-col flex-wrap">
+                <CandidateDetails appliedJobs={appliedJobs} />
+            </div>
+        </div>
+    );
 }
 
 export default AppliedJobs;
