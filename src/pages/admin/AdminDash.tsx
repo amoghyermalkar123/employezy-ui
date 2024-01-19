@@ -1,30 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
+import { IoIosSettings } from "react-icons/io";
+
 import { IoAdd } from "react-icons/io5";
-import { MdManageAccounts } from "react-icons/md";
-import CardsComp from "../../components/adminComp/CardsComp";
 import TableComp from "../../components/adminComp/TableComp";
 import InfoComp from "../../components/adminComp/InfoComp";
 import zustandStore from "../../store/ZustandStore";
 import { useNavigate } from "react-router-dom";
 import NewJobComp from "../../components/adminComp/NewJobComp";
-import { useEffect } from "react";
-// import AdminController from "../../controllers/AdminController";
 
 function AdminDash() {
   const NewJobSideBarState = zustandStore(state => state.NewJobSideBarState);
   const { setNewJobSideBarState } = zustandStore();
   const navigate = useNavigate();
-
-  // const [jobs, setJobs] = useState();
-
-  const handleJobs = async () => {
-    // const res = await AdminController.JobsPerCompany(1);
-    // setJobs(res);
-  };
-
-  useEffect(() => {
-    handleJobs();
-  }, []);
 
   return (
     <div className="h-screen w-screen overflow-x-hidden">
@@ -40,11 +28,7 @@ function AdminDash() {
               >
                 <HiOutlineMenuAlt1 className="text-2xl" />
               </label>
-              <input
-                type="text"
-                placeholder="Search..."
-                className="input input-bordered w-full max-w-xs"
-              />
+              <a className="btn btn-ghost text-xl">EmployEzy Admin</a>
             </div>
             <div className="dropdown dropdown-end">
               <div
@@ -77,16 +61,15 @@ function AdminDash() {
           </div>
           {/* navbar ends here */}
           {/* stats section starts here */}
-          <section id="stats" className="p-4 w-full">
-            <h2 className="font-medium text-xl mb-5">Job Statistics</h2>
+          {/* <section id="stats" className="p-4 w-full">
             <CardsComp />
-          </section>
+          </section> */}
           <section className="p-4 w-full">
             <InfoComp />
           </section>
           {/* table section starts here */}
           <section className="flex flex-col p-4">
-            <h2 className="font-medium text-xl mb-5">Applications</h2>
+            <h2 className="font-medium text-xl mb-5">Openings</h2>
             <div className="w-full h-80 overflow-auto border-2 rounded-xl">
               <TableComp />
             </div>
@@ -100,7 +83,7 @@ function AdminDash() {
           />
           <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
-            <a className="btn btn-ghost text-xl">EmployEzy Admin</a>
+
             <button
               className="btn btn-primary btn-outline w-full mt-5"
               onClick={() => setNewJobSideBarState(true)}
@@ -110,17 +93,11 @@ function AdminDash() {
             </button>
             <button
               className="btn btn-primary btn-outline w-full mt-5"
-              onClick={() => navigate("/admin/manage")}
+              onClick={() => navigate("/admin/managejobs")}
             >
-              <MdManageAccounts className="text-2xl" />
-              Manage Openings
+              <IoIosSettings className="text-2xl" />
+              Manage Jobs
             </button>
-            <li className="mt-5">
-              <a>Sidebar Item 1</a>
-            </li>
-            <li>
-              <a>Sidebar Item 2</a>
-            </li>
           </ul>
         </div>
       </div>

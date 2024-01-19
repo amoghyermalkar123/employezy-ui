@@ -1,98 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import AdminController from "../../controllers/AdminController";
+import { useNavigate } from "react-router-dom";
+
 function TableComp() {
+  const [jobs, setJobs] = useState<any[]>([]);
+
+  const navigate = useNavigate();
+
+  const handleJobs = async () => {
+    try {
+      const res = await AdminController.AllApplications(1);
+      console.log(res);
+      setJobs(res || []);
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+      setJobs([]);
+    }
+  };
+
+  useEffect(() => {
+    handleJobs();
+  }, []);
+
   return (
     <div className="overflow-auto">
       <table className="table">
-        {/* head */}
         <thead>
           <tr>
-            <th />
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>Opening Name</th>
+            <th>Location</th>
+            <th>Salary</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
+          {jobs.map((item: any, index: number) =>
+            <tr key={index}>
+              <td>
+                {item.opening_name}
+              </td>
+              <td>
+                {item.location}
+              </td>
+              <td>
+                {item.salary}
+              </td>
+              <td>
+                <button
+                  className="btn btn-primary btn-outline"
+                  onClick={() =>
+                    navigate("/admin/manage", {
+                      state: JSON.stringify(item.opening_id)
+                    })}
+                >
+                  View More
+                </button>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

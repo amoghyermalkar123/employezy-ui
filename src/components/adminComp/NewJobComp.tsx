@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { CgClose } from "react-icons/cg";
 import zustandStore from "../../store/ZustandStore.ts";
 import { useState } from "react";
-import createJobOpening from "../../controllers/AdminController.ts";
+import AdminController from "../../controllers/AdminController.ts";
 
 export default function NewJobComp() {
   const data = JSON.parse(localStorage.getItem("org_details")!);
@@ -16,7 +16,7 @@ export default function NewJobComp() {
   const Job_tags = ["Full Time", "Hybrid"];
 
   const handleNewJobopening = async () => {
-    createJobOpening(
+    AdminController.createJobOpening(
       data.org_id,
       jobName,
       assignment,
