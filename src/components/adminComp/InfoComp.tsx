@@ -24,27 +24,29 @@ function InfoComp() {
           <CalenderComp />
         </div>
       </div>
-      <div className="card h-full w-full bg-base-100 border-2 overflow-auto">
+      <div className="card h-full w-full bg-base-100 border-2 ">
         <div className="card-body">
           <h2 className="card-title">Nudges</h2>
           <div className="divider" />
-          {nudges &&
-            nudges.map((item, index) =>
-              <div className="" key={index}>
-                <div className="flex flex-col">
-                  <p className="text-sm text-gray-600">
-                    {item.Users.email}
-                  </p>
-                  <p className="text-sm text-gray-600 font-bold">
-                    {item.JobOpenings.opening_name}
+          <div className="h-80 overflow-auto">
+            {nudges &&
+              nudges.map((item, index) =>
+                <div className="m-2" key={index}>
+                  <div className="flex flex-col">
+                    <p className="text-sm text-gray-600">
+                      {item.Users.email}
+                    </p>
+                    <p className="text-sm text-gray-600 font-bold">
+                      {item.JobOpenings.opening_name}
+                    </p>
+                  </div>
+
+                  <p>
+                    {item.nudge_message}
                   </p>
                 </div>
-
-                <p>
-                  {item.nudge_message}
-                </p>
-              </div>
-            )}
+              )}
+          </div>
         </div>
       </div>
     </div>
