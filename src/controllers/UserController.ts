@@ -44,7 +44,7 @@ const handleLogin = async (email: string, password: string, isOrg: boolean): Pro
   }
 };
 
-const registerUser = async (name: string, email: string, password: string, isOrg: boolean): Promise<UserSession> => {
+const registerUser = async (email: string, password: string, isOrg: boolean): Promise<UserSession> => {
 
   if (isOrg) {
     const response = await supabase.from('Orgs').insert({ email, password });

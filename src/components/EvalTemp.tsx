@@ -7,8 +7,9 @@ export function CandidateDetails(props: { appliedJobs: AppliedJobUI[] }) {
         const nudgeRecruiter: Nudge = {
             candidate_id: nudge.candidate_id,
             submission_id: nudge.submission_id,
-            opening_id: nudge.opening_id,
             nudge_message: "Hey! Hope you are well, please take a moment to review my submission, Thanks!",
+            opening_name: 0,
+            last_nudged_at: new Date(),
         }
         const response = await jc.nudgeAboutOpening(nudgeRecruiter);
         if (response === "ok") {
